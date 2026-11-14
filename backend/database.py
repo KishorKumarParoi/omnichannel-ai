@@ -173,9 +173,11 @@ class DBConnectionContext:
     def execute(self, query: str, params: tuple = ()):
         """Executes query with automatic placeholder translation (? -> %s for Postgres)."""
         if self.is_pg:
-            # Substitute '?' placeholders with '%s' for PostgreSQL
-            pg_query = query.replace("?", "%s")
-            self.cursor.execute(pg_query, params)
+            if params:
+                pg_query = query.replace("?", "%s")
+                self.cursor.execute(pg_query, params)
+            else:
+                self.cursor.execute(query)
         else:
             self.cursor.execute(query, params)
         return self.cursor
@@ -487,7 +489,7 @@ def _init_postgres_schema(db: DBConnectionContext):
             labor_cost_saved REAL DEFAULT 0.0,
             platform_fee REAL DEFAULT 0.0,
             net_ebitda_contribution REAL DEFAULT 0.0,
-            ebitda_margin_pct TEXT DEFAULT '0%',
+            ebitda_margin_pct TEXT DEFAULT '0 pct',
             email_dispatched_to TEXT DEFAULT '',
             created_at TEXT NOT NULL
         )
@@ -800,7 +802,7 @@ def _init_sqlite_schema(db: DBConnectionContext):
             labor_cost_saved REAL DEFAULT 0.0,
             platform_fee REAL DEFAULT 0.0,
             net_ebitda_contribution REAL DEFAULT 0.0,
-            ebitda_margin_pct TEXT DEFAULT '0%',
+            ebitda_margin_pct TEXT DEFAULT '0 pct',
             email_dispatched_to TEXT DEFAULT '',
             created_at TEXT NOT NULL
         )
