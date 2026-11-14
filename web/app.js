@@ -3153,7 +3153,7 @@ async function loadOwnerEbitdaData(market) {
       if (laborVal) laborVal.textContent = `${sym}${Math.round(metrics.labor_cost_saved || 3925).toLocaleString()}`;
       if (afterHoursVal) afterHoursVal.textContent = `${sym}${Math.round(metrics.after_hours_revenue_captured || 5266).toLocaleString()}`;
 
-      const flag = m === "UK" ? "🇬🇧" : (m === "Canada" ? "🇨🇦" : "🇺🇸");
+      const flag = m === "UK" ? "🇬🇧" : (m === "Canada" ? "🇨🇦" : (m === "Europe" || m === "EU" ? "🇪🇺" : "🇺🇸"));
       showToastNotification("booked", `Market Switched to ${m} ${flag}`, `Currency: ${rep.currency} (${sym}) • Standard: ${rep.compliance_standard}`);
       return;
     }
@@ -3168,6 +3168,12 @@ async function loadOwnerEbitdaData(market) {
     if (laborVal) laborVal.textContent = "£2,826";
     if (afterHoursVal) afterHoursVal.textContent = "£4,210";
     showToastNotification("booked", "Market Switched to UK 🇬🇧", "Currency set to GBP (£) • GDPR & PECR Direct Marketing rules active.");
+  } else if (m === "Europe" || m === "EU") {
+    if (netVal) netVal.textContent = "€6,890";
+    if (grossVal) grossVal.textContent = "€12,450";
+    if (laborVal) laborVal.textContent = "€3,470";
+    if (afterHoursVal) afterHoursVal.textContent = "€4,730";
+    showToastNotification("booked", "Market Switched to Europe 🇪🇺", "Currency set to EUR (€) • EU GDPR & ePrivacy Directive rules active.");
   } else if (m === "Canada") {
     if (netVal) netVal.textContent = "CAD $9,980";
     if (grossVal) grossVal.textContent = "CAD $18,020";

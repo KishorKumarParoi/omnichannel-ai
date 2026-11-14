@@ -51,6 +51,22 @@ MARKET_CONFIGS = {
         "compliance": "CASL (Canadian Anti-Spam Legislation) Compliant",
         "receptionist_hourly_rate": 22.0, # Average Canadian receptionist wage (CAD)
         "default_locale": "en-CA"
+    },
+    "Europe": {
+        "currency": "EUR",
+        "symbol": "€",
+        "phone_prefix": "+33", # Supports all EU E.164 (+33, +49, +34, +39, +31)
+        "compliance": "EU GDPR (Regulation 2016/679) & ePrivacy Directive Compliant",
+        "receptionist_hourly_rate": 22.0, # Average EU receptionist wage (€)
+        "default_locale": "en-EU"
+    },
+    "EU": {
+        "currency": "EUR",
+        "symbol": "€",
+        "phone_prefix": "+33",
+        "compliance": "EU GDPR (Regulation 2016/679) & ePrivacy Directive Compliant",
+        "receptionist_hourly_rate": 22.0,
+        "default_locale": "en-EU"
     }
 }
 
@@ -65,7 +81,16 @@ class SalonOwnerOS:
         self.default_market = os.getenv("SALON_MARKET", "USA")
 
     def get_market_config(self, market: str = "USA") -> Dict[str, Any]:
-        return MARKET_CONFIGS.get(market.upper(), MARKET_CONFIGS["USA"])
+        if not market:
+            return MARKET_CONFIGS["USA"]
+        m_raw = str(market).strip()
+        if m_raw in MARKET_CONFIGS:
+            return MARKET_CONFIGS[m_raw]
+        if m_raw.upper() in MARKET_CONFIGS:
+            return MARKET_CONFIGS[m_raw.upper()]
+        if m_raw.title() in MARKET_CONFIGS:
+            return MARKET_CONFIGS[m_raw.title()]
+        return MARKET_CONFIGS["USA"]
 
     # =========================================================================
     # 1. CALL REPORT & MARKETING LEAD SCORING
@@ -545,7 +570,14 @@ class SalonOwnerOS:
         after_hours_revenue = round(gross_revenue * 0.38, 2)
 
         # Platform cost
-        platform_fee = 350.0 if cfg["currency"] == "USD" else (280.0 if cfg["currency"] == "GBP" else 450.0)
+        if cfg["currency"] == "USD":
+            platform_fee = 350.0
+        elif cfg["currency"] == "GBP":
+            platform_fee = 280.0
+        elif cfg["currency"] == "EUR":
+            platform_fee = 320.0
+        else:
+            platform_fee = 450.0
 
         # Net EBITDA Contribution = (Labor Saved + After-Hours Captured Revenue) - Platform Cost
         net_ebitda = round(labor_cost_saved + after_hours_revenue - platform_fee, 2)
