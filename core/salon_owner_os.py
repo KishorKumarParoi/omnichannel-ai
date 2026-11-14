@@ -629,6 +629,40 @@ class SalonOwnerOS:
         </html>
         """
 
+        # 1. Primary: High-Deliverability Resend API
+        resend_api_key = os.getenv("RESEND_API_KEY", "").strip()
+        if resend_api_key:
+            try:
+                import requests
+                from_email = (os.getenv("SMTP_FROM") or "Luxe Salon & Spa <onboarding@resend.dev>").strip('"\'')
+                clean_to = owner_email.strip().lower()
+                res = requests.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {resend_api_key}", "Content-Type": "application/json"},
+                    json={
+                        "from": from_email,
+                        "to": [clean_to],
+                        "subject": subject,
+                        "html": html_body
+                    },
+                    timeout=10.0
+                )
+                if res.status_code in (200, 201):
+                    res_data = res.json()
+                    logger.info(f"✅ Dispatched executive EBITDA report via Resend to {clean_to} (ID: {res_data.get('id')})")
+                    return {
+                        "status": "sent",
+                        "channel": "resend",
+                        "recipient": clean_to,
+                        "subject": subject,
+                        "resend_id": res_data.get("id")
+                    }
+                else:
+                    logger.warning(f"Resend EBITDA dispatch warning ({res.status_code}): {res.text}")
+            except Exception as e:
+                logger.warning(f"Could not dispatch EBITDA email via Resend: {e}")
+
+        # 2. Fallback: Standard SMTP
         try:
             import smtplib
             from email.mime.text import MIMEText
@@ -650,8 +684,8 @@ class SalonOwnerOS:
                     server.starttls()
                     server.login(smtp_user, smtp_pass)
                     server.sendmail(smtp_user, [owner_email], msg.as_string())
-                logger.info(f"✅ Dispatched executive EBITDA report to {owner_email}")
-                return {"status": "sent", "recipient": owner_email, "subject": subject}
+                logger.info(f"✅ Dispatched executive EBITDA report via SMTP to {owner_email}")
+                return {"status": "sent", "channel": "smtp", "recipient": owner_email, "subject": subject}
         except Exception as e:
             logger.warning(f"Could not dispatch EBITDA email via SMTP: {e}")
 

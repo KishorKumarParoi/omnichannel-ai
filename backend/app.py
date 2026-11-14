@@ -626,6 +626,11 @@ class OwnerSettingsRequest(BaseModel):
     slack_channel: Optional[str] = None
 
 
+class EbitdaEmailRequest(BaseModel):
+    email: Optional[str] = None
+    market: Optional[str] = "USA"
+
+
 @app.get("/api/owner/call-reports")
 def get_owner_call_reports(tenant_id: str = "salon", limit: int = 30):
     """Returns AI-generated call reports with lead scores, customer sentiment, and estimated LTV."""
@@ -874,11 +879,20 @@ def get_ebitda_intelligence(market: str = "USA", period_days: int = 30):
 
 
 @app.post("/api/reports/dispatch-email")
-def dispatch_ebitda_email(email: Optional[str] = None, market: str = "USA"):
+def dispatch_ebitda_email(payload: Optional[EbitdaEmailRequest] = None, email: Optional[str] = None, market: str = "USA"):
     """Dispatches executive HTML EBITDA report to salon owner's inbox."""
     from core.salon_owner_os import salon_owner_os
-    target_email = email or os.getenv("SALON_OWNER_EMAIL", "owner@luxesaloon.com")
-    res = salon_owner_os.dispatch_executive_ebitda_email(owner_email=target_email, market=market)
+    target_email = ""
+    target_market = market
+    if payload:
+        target_email = payload.email or ""
+        target_market = payload.market or market
+    if not target_email and email:
+        target_email = email
+    if not target_email:
+        target_email = os.getenv("SALON_OWNER_EMAIL", "owner@luxesaloon.com")
+
+    res = salon_owner_os.dispatch_executive_ebitda_email(owner_email=target_email, market=target_market)
     return {"status": "success", "email_dispatch": res}
 
 

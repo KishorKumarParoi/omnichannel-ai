@@ -3244,19 +3244,24 @@ function triggerQuickActionCall() {
 
 async function dispatchEbitdaEmailAction() {
   const emailInput = document.getElementById("ownerReportEmail");
-  const email = emailInput ? emailInput.value.trim() : "kishor.paroi@gmail.com";
+  const email = emailInput ? emailInput.value.trim() : "kishor.ruet.cse@gmail.com";
   showToastNotification("calling", "Generating EBITDA Audit", `Compiling financial breakdown for ${email}...`);
 
   try {
-    const res = await fetch("/api/reports/dispatch-email", {
+    const res = await fetch(`/api/reports/dispatch-email?email=${encodeURIComponent(email)}&market=${encodeURIComponent(currentOwnerMarket)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, market: currentOwnerMarket })
     });
     const data = await res.json();
-    showToastNotification("booked", "EBITDA Report Dispatched", `Executive financial digest sent to ${email} and Slack.`);
+    if (data.status === "success") {
+      const channel = data.email_dispatch && data.email_dispatch.channel ? data.email_dispatch.channel : "live";
+      showToastNotification("booked", "EBITDA Report Sent! 📧", `Report dispatched to ${email}! Check your primary inbox or promotions tab.`);
+    } else {
+      showToastNotification("error", "Dispatch Failed", data.message || "Could not dispatch email");
+    }
   } catch (err) {
-    showToastNotification("booked", "EBITDA Report Dispatched", `Executive financial digest sent to ${email} and Slack.`);
+    showToastNotification("error", "Network Error", "Could not reach email dispatch service.");
   }
 }
 
