@@ -192,6 +192,16 @@ class DBConnectionContext:
         rows = self.cursor.fetchall()
         return [dict(r) for r in rows]
 
+    def commit(self):
+        """Explicit commit on underlying database connection."""
+        if self.conn:
+            self.conn.commit()
+
+    def rollback(self):
+        """Explicit rollback on underlying database connection."""
+        if self.conn:
+            self.conn.rollback()
+
     @property
     def rowcount(self) -> int:
         return self.cursor.rowcount

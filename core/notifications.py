@@ -787,6 +787,24 @@ class NotificationDispatcher:
         logger.info(f"💬 [SIMULATION MESSENGER] To PSID: {recipient_psid} | Text: {text}")
         return {"status": "simulated", "channel": "messenger", "recipient": recipient_psid, "content": text}
 
+    def send_messenger_dm(self, recipient_id: str, text: str, quick_replies: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Alias for Facebook Messenger direct dispatch."""
+        return self.send_messenger(recipient_psid=recipient_id, text=text, quick_replies=quick_replies)
+
+    def make_outbound_call(
+        self,
+        to_phone: str,
+        custom_message: Optional[str] = None,
+        tenant_id: str = "salon",
+        customer_name: str = "Valued Guest"
+    ) -> Dict[str, Any]:
+        """Dispatches outbound call via unified Telnyx / Vapi voice engine."""
+        return self.trigger_telnyx_outbound_call(
+            to_phone=to_phone,
+            customer_name=customer_name,
+            first_message=custom_message
+        )
+
     def send_instagram_dm(self, recipient_igid: str, text: str) -> Dict[str, Any]:
         """Dispatches Instagram Direct message via Graph API."""
         if self.meta_access_token:

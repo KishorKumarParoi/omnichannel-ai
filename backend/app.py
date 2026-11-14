@@ -582,6 +582,12 @@ def get_schedule_availability(tenant_id: str = "salon"):
 # 👑 SALON OWNER AUTONOMOUS AI OPERATING SYSTEM API ROUTES
 # ==============================================================================
 
+class SimulateCallRequest(BaseModel):
+    name: Optional[str] = "Victoria Thorne"
+    service: Optional[str] = "Brazilian Keratin Treatment ($320)"
+    phone: Optional[str] = "+16172718180"
+
+
 class RedialLeadRequest(BaseModel):
     phone: str
     name: Optional[str] = "Valued Guest"
@@ -687,6 +693,39 @@ def get_owner_call_reports(tenant_id: str = "salon", limit: int = 30):
     except Exception as e:
         logger.error(f"Error fetching call reports: {e}")
         return {"status": "error", "message": str(e), "reports": []}
+
+
+@app.post("/api/owner/simulate-call")
+def simulate_owner_call(payload: Optional[SimulateCallRequest] = None, name: Optional[str] = None, service: Optional[str] = None, phone: Optional[str] = None):
+    """Simulates a caller inquiry, calculates AI lead score and LTV, saves report, and dispatches to Slack."""
+    from core.salon_owner_os import salon_owner_os
+    from backend.database import save_call_report
+    caller_name = (payload.name if payload and payload.name else name) or "Victoria Thorne"
+    caller_phone = (payload.phone if payload and payload.phone else phone) or "+16172718180"
+    service_inquired = (payload.service if payload and payload.service else service) or "Brazilian Keratin Treatment ($320)"
+
+    log_entry = {
+        "call_id": f"call_{int(datetime.now().timestamp())}",
+        "tenant_id": "salon",
+        "caller_name": caller_name,
+        "caller_phone": caller_phone,
+        "service_name": service_inquired,
+        "call_outcome": "inquiry",
+        "sentiment": "happy",
+        "duration_seconds": 124,
+        "summary": f"{caller_name} called to check Saturday availability with Marcus for {service_inquired}. Loved pricing, partner check needed.",
+        "transcript": "Customer: Hi, do you have Saturday slots for Brazilian Keratin? Sofia: Yes, Marcus has 2:00 PM available."
+    }
+    report = salon_owner_os.generate_call_report(log_entry)
+    try:
+        save_call_report(report)
+    except Exception as e:
+        logger.warning(f"Could not persist simulated call report: {e}")
+    try:
+        salon_owner_os.dispatch_slack_call_report(report)
+    except Exception as e:
+        logger.warning(f"Could not dispatch Slack call report: {e}")
+    return {"status": "success", "report": report}
 
 
 @app.post("/api/owner/redial-lead")

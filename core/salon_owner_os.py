@@ -264,7 +264,8 @@ class SalonOwnerOS:
         return notification_dispatcher.make_outbound_call(
             to_phone=phone,
             custom_message=custom_greeting,
-            tenant_id=self.default_tenant
+            tenant_id=self.default_tenant,
+            customer_name=name
         )
 
     # =========================================================================
@@ -491,7 +492,8 @@ class SalonOwnerOS:
         return notification_dispatcher.make_outbound_call(
             to_phone=phone,
             custom_message=custom_greeting,
-            tenant_id=self.default_tenant
+            tenant_id=self.default_tenant,
+            customer_name=name
         )
 
     def trigger_day15_rebook_call(self, phone: str, name: str, service: str = "Signature Balayage", stylist: str = "Marcus") -> Dict[str, Any]:
@@ -505,7 +507,8 @@ class SalonOwnerOS:
         return notification_dispatcher.make_outbound_call(
             to_phone=phone,
             custom_message=custom_greeting,
-            tenant_id=self.default_tenant
+            tenant_id=self.default_tenant,
+            customer_name=name
         )
 
     # =========================================================================
