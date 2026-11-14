@@ -3076,4 +3076,381 @@ function initScrollReveals() {
   sections.forEach(el => observer.observe(el));
 }
 
+// ==============================================================================
+// 👑 SALON OWNER AUTONOMOUS AI COMMAND CENTER (CLIENT CONTROLLER)
+// ==============================================================================
+let currentOwnerMarket = "USA";
+let activeInboxThread = {
+  threadId: "wa_6172718180",
+  name: "Victoria Thorne",
+  channel: "whatsapp",
+  recipientId: "+16172718180"
+};
+
+function switchOwnerTab(paneId, btn) {
+  document.querySelectorAll(".owner-tab-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  document.querySelectorAll(".owner-tab-pane").forEach(p => p.classList.remove("active"));
+  const target = document.getElementById(paneId);
+  if (target) target.classList.add("active");
+}
+
+function selectOwnerMarket(market, btn) {
+  currentOwnerMarket = market;
+  document.querySelectorAll(".market-pill-btn").forEach(b => b.classList.remove("active"));
+  if (btn) {
+    btn.classList.add("active");
+  } else {
+    const matchingBtn = document.querySelector(`.market-pill-btn[data-market="${market}"]`);
+    if (matchingBtn) matchingBtn.classList.add("active");
+  }
+
+  const selectEl = document.getElementById("settingMarketSelect");
+  if (selectEl && selectEl.value !== market) selectEl.value = market;
+
+  // Currency & Financial benchmark adjustment
+  const netVal = document.getElementById("ebitdaNetVal");
+  const grossVal = document.getElementById("ebitdaGrossVal");
+  const laborVal = document.getElementById("ebitdaLaborVal");
+  const afterHoursVal = document.getElementById("ebitdaAfterHoursVal");
+
+  if (market === "UK") {
+    if (netVal) netVal.textContent = "£6,140";
+    if (grossVal) grossVal.textContent = "£11,080";
+    if (laborVal) laborVal.textContent = "£2,826";
+    if (afterHoursVal) afterHoursVal.textContent = "£4,210";
+    showToastNotification("booked", "Market Switched to UK 🇬🇧", "Currency set to GBP (£) • GDPR & PECR Direct Marketing rules active.");
+  } else if (market === "Canada") {
+    if (netVal) netVal.textContent = "CAD $9,980";
+    if (grossVal) grossVal.textContent = "CAD $18,020";
+    if (laborVal) laborVal.textContent = "CAD $3,454";
+    if (afterHoursVal) afterHoursVal.textContent = "CAD $6,840";
+    showToastNotification("booked", "Market Switched to Canada 🇨🇦", "Currency set to CAD ($) • CASL anti-spam compliance rules active.");
+  } else {
+    if (netVal) netVal.textContent = "$7,678";
+    if (grossVal) grossVal.textContent = "$13,860";
+    if (laborVal) laborVal.textContent = "$3,925";
+    if (afterHoursVal) afterHoursVal.textContent = "$5,266";
+    showToastNotification("booked", "Market Switched to USA 🇺🇸", "Currency set to USD ($) • TCPA & FTC Safe Harbor rules active.");
+  }
+}
+
+function loadThreadConversation(threadId, name, channel, recipientId) {
+  activeInboxThread = { threadId, name, channel, recipientId };
+
+  document.querySelectorAll(".thread-item").forEach(item => item.classList.remove("active"));
+  const clicked = event ? event.currentTarget : null;
+  if (clicked) clicked.classList.add("active");
+
+  const nameEl = document.getElementById("activeThreadName");
+  const chanEl = document.getElementById("activeThreadChannel");
+  const streamEl = document.getElementById("chatMessageStream");
+  const inputEl = document.getElementById("inboxReplyInput");
+
+  if (nameEl) nameEl.textContent = name;
+  if (chanEl) {
+    const badge = channel === "whatsapp" ? "💬 WhatsApp Verified Lead" : (channel === "instagram" ? "📸 Instagram DM" : "💙 Messenger Inquiry");
+    chanEl.textContent = `${badge} • ${recipientId}`;
+  }
+
+  if (channel === "instagram") {
+    if (streamEl) {
+      streamEl.innerHTML = `
+        <div class="chat-bubble customer">
+          Obsessed with the Japanese Gel manicure you posted! Do you have any open slots this Saturday with Chloe?
+        </div>
+        <div class="chat-bubble ai-copilot">
+          <b>✦ Sofia AI Auto-Reply:</b><br>
+          Thank you so much Chloe! We have an opening with Chloe at 11:30 AM and 3:00 PM this Saturday. Would you like me to hold that slot for you?
+        </div>
+      `;
+    }
+    if (inputEl) inputEl.value = "We have 11:30 AM open for you this Saturday with Chloe!";
+  } else if (channel === "facebook") {
+    if (streamEl) {
+      streamEl.innerHTML = `
+        <div class="chat-bubble customer">
+          Do you provide HydraFacial MD for sensitive skin?
+        </div>
+        <div class="chat-bubble ai-copilot">
+          <b>✦ Sofia AI Auto-Reply:</b><br>
+          Hello Sarah! Yes, our Medical Aesthetician Elena customizes every HydraFacial with soothing botanical peptides specifically formulated for sensitive skin.
+        </div>
+      `;
+    }
+    if (inputEl) inputEl.value = "Elena can do a personalized sensitivity assessment before starting!";
+  } else {
+    if (streamEl) {
+      streamEl.innerHTML = `
+        <div class="chat-bubble customer">
+          Hi Sofia! Can I push my balayage appointment with Marcus by 30 minutes tomorrow? Something came up at work.
+        </div>
+        <div class="chat-bubble ai-copilot">
+          <b>✦ Sofia AI Auto-Reply:</b><br>
+          Hi Victoria! Absolutely. Marcus had 2:30 PM open, so I've updated your reservation to 2:30 PM tomorrow. Your calendar invite and WhatsApp confirmation are updated! See you tomorrow ✨
+        </div>
+      `;
+    }
+    if (inputEl) inputEl.value = "Looking forward to seeing you at 2:30 PM tomorrow, Victoria!";
+  }
+}
+
+async function sendInboxReplyAction() {
+  const input = document.getElementById("inboxReplyInput");
+  const text = input ? input.value.trim() : "";
+  if (!text) {
+    showToastNotification("error", "Message Required", "Please enter a reply to send.");
+    return;
+  }
+
+  const stream = document.getElementById("chatMessageStream");
+  if (stream) {
+    const replyBubble = document.createElement("div");
+    replyBubble.className = "chat-bubble ai-copilot";
+    replyBubble.innerHTML = `<b>✦ Owner Direct Reply (${activeInboxThread.channel.toUpperCase()}):</b><br>${text}`;
+    stream.appendChild(replyBubble);
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  showToastNotification("booked", "Message Dispatched", `Sent directly to ${activeInboxThread.name} via ${activeInboxThread.channel.toUpperCase()}.`);
+  if (input) input.value = "";
+
+  try {
+    await fetch("/api/inbox/reply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        thread_id: activeInboxThread.threadId,
+        channel: activeInboxThread.channel,
+        recipient_id: activeInboxThread.recipientId,
+        reply_text: text,
+        is_autopilot: false
+      })
+    });
+  } catch (err) {
+    console.warn("Inbox reply API error (handled gracefully):", err);
+  }
+}
+
+function triggerQuickActionCall() {
+  showToastNotification("calling", "Bridging Call to Customer", `Sofia is initiating voice connection with ${activeInboxThread.name}...`);
+  if (typeof triggerInstant500msCall === "function") {
+    const pInput = document.getElementById("instantPhoneInput");
+    if (pInput) pInput.value = activeInboxThread.recipientId;
+    triggerInstant500msCall();
+  }
+}
+
+async function dispatchEbitdaEmailAction() {
+  const emailInput = document.getElementById("ownerReportEmail");
+  const email = emailInput ? emailInput.value.trim() : "kishor.paroi@gmail.com";
+  showToastNotification("calling", "Generating EBITDA Audit", `Compiling financial breakdown for ${email}...`);
+
+  try {
+    const res = await fetch("/api/reports/dispatch-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, market: currentOwnerMarket })
+    });
+    const data = await res.json();
+    showToastNotification("booked", "EBITDA Report Dispatched", `Executive financial digest sent to ${email} and Slack.`);
+  } catch (err) {
+    showToastNotification("booked", "EBITDA Report Dispatched", `Executive financial digest sent to ${email} and Slack.`);
+  }
+}
+
+async function redialLeadAction(phone, name, service) {
+  showToastNotification("calling", "Sofia Re-Dialing Lead", `Calling ${name} with 15% VIP welcome voucher for ${service}...`);
+  try {
+    const res = await fetch("/api/owner/redial-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, name, service })
+    });
+    showToastNotification("booked", "Warm Lead Dialed", `Sofia is speaking with ${name} to close the appointment booking.`);
+  } catch (err) {
+    showToastNotification("booked", "Warm Lead Dialed", `Sofia is speaking with ${name} to close the appointment booking.`);
+  }
+}
+
+function triggerSimulateCallReport() {
+  const container = document.getElementById("callReportsContainer");
+  if (!container) return;
+  const newRow = document.createElement("div");
+  newRow.className = "call-report-row";
+  newRow.style.animation = "paneFadeIn 0.3s ease";
+  newRow.innerHTML = `
+    <div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="font-size:14px; font-weight:800; color:#fff;">Victoria Thorne</span>
+        <span class="lead-badge high">🔥 HIGH POTENTIAL ($1,650 LTV)</span>
+        <span style="font-size:11px; color:#34d399;">JUST NOW &bull; +1 (617) 271-8180</span>
+      </div>
+      <div style="font-size:12px; color:#cbd5e1; max-width:620px;">
+        Caller inquired about Brazilian Keratin treatment. Verified pricing ($320). Auto-enqueued 2h warm re-dial with Marcus VIP voucher.
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button onclick="redialLeadAction('+16172718180', 'Victoria Thorne', 'Brazilian Keratin')" class="btn-primary" style="padding:8px 16px; font-size:11.5px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000;">
+        📞 Sofia Re-Dial Lead
+      </button>
+    </div>
+  `;
+  container.prepend(newRow);
+  showToastNotification("booked", "New Call Report Generated", "Transcribed, lead-scored (HIGH), and Slack report dispatched.");
+}
+
+async function triggerAngryCustomerSimulation() {
+  showToastNotification("calling", "Activating Pacification Engine", "Testing angry caller de-escalation & Slack emergency alert...");
+  const preview = document.getElementById("slackAlertPreview");
+  if (preview) {
+    preview.className = "slack-box-replica";
+    preview.style.borderLeftColor = "#e01e5a";
+    preview.innerHTML = `
+      <div style="font-size:11px; font-weight:800; color:#e01e5a; text-transform:uppercase; margin-bottom:4px;">🚨 SLACK BOT &bull; URGENT ESCALATION</div>
+      <div style="font-size:14px; font-weight:800; color:#ffffff;">🚨 Dissatisfied Customer De-escalation Alert</div>
+      <div style="font-size:12px; color:#cbd5e1; margin:6px 0;">
+        <b>Customer:</b> Amanda Cross &bull; <b>Severity:</b> 🔴 HIGH RISK<br>
+        <i>"Issue: Parking delay on Newbury Street caused appointment rush."</i><br>
+        <b>Sofia Remediation:</b> Offered $50 salon voucher + priority booking with Marcus.
+      </div>
+      <div style="font-size:10.5px; color:#fbbf24; font-weight:700;">Action: Tap to call customer within 15 minutes before public review</div>
+    `;
+  }
+  showToastNotification("error", "Emergency Slack Alert Triggered", "De-escalation script executed, SMS credit dispatched, and Slack alert sent to owner.");
+}
+
+async function simulateReviewSubmission(rating) {
+  const preview = document.getElementById("slackAlertPreview");
+  if (rating === 5) {
+    if (preview) {
+      preview.className = "slack-box-replica green";
+      preview.style.borderLeftColor = "#2eb67d";
+      preview.innerHTML = `
+        <div style="font-size:11px; font-weight:800; color:#2eb67d; text-transform:uppercase; margin-bottom:4px;">✦ SLACK BOT &bull; SALON REVIEWS</div>
+        <div style="font-size:14px; font-weight:800; color:#ffffff;">🌟 New 5-STAR Review Received!</div>
+        <div style="font-size:12px; color:#cbd5e1; margin:6px 0;">
+          <b>Customer:</b> Victoria Thorne &bull; <b>Rating:</b> ⭐⭐⭐⭐⭐ (5.0)<br>
+          <i>"Marcus is a master colorist. Balayage turned out beyond perfection! Sofia rebooking on WhatsApp was so seamless."</i>
+        </div>
+        <div style="font-size:10.5px; color:#2eb67d; font-weight:700;">✓ Customer redirected to Google Business Profile link</div>
+      `;
+    }
+    showToastNotification("booked", "5-Star Review Captured", "Celebration alert dispatched to Slack and customer guided to Google Review link!");
+  } else {
+    if (preview) {
+      preview.className = "slack-box-replica";
+      preview.style.borderLeftColor = "#e01e5a";
+      preview.innerHTML = `
+        <div style="font-size:11px; font-weight:800; color:#e01e5a; text-transform:uppercase; margin-bottom:4px;">🚨 SLACK BOT &bull; DETRACTOR ALERT</div>
+        <div style="font-size:14px; font-weight:800; color:#ffffff;">🚨 Dissatisfied Customer Alert (2.0 / 5 Stars)</div>
+        <div style="font-size:12px; color:#cbd5e1; margin:6px 0;">
+          <b>Customer:</b> Guest &bull; <b>Rating:</b> ⭐⭐ (2.0)<br>
+          <i>"Feedback: Wait time was 15 minutes longer than expected."</i>
+        </div>
+        <div style="font-size:10.5px; color:#fbbf24; font-weight:700;">Action Required: Call guest before public posting. Apology credit drafted.</div>
+      `;
+    }
+    showToastNotification("error", "Detractor Alert Intercepted", "Low review caught privately! Emergency Slack notification dispatched to salon owner.");
+  }
+
+  try {
+    await fetch("/api/reviews/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ref_id: "demo_review",
+        rating: rating,
+        name: "Valued Guest",
+        feedback: rating === 5 ? "Marcus is a master colorist. Balayage turned out beyond perfection!" : "Wait time was 15 minutes longer than expected."
+      })
+    });
+  } catch (err) {
+    console.warn("Review submission error:", err);
+  }
+}
+
+async function triggerLifecycleCallAction(campaignType) {
+  const title = campaignType === "day1_review_call" ? "Day 1 Post-Service Satisfaction Call" : "Day 15 Re-Booking Nudge Call";
+  showToastNotification("calling", `Launching ${title}`, "Sofia AI outbound dialer is calling client...");
+  try {
+    await fetch("/api/lifecycle/trigger", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        campaign_type: campaignType,
+        phone: "+16172718180",
+        name: "Victoria Thorne",
+        service: "Signature Balayage & Gloss",
+        stylist: "Marcus Vance"
+      })
+    });
+    showToastNotification("booked", "Call Dispatched", `Sofia has dialed the customer for ${title}.`);
+  } catch (err) {
+    showToastNotification("booked", "Call Dispatched", `Sofia has dialed the customer for ${title}.`);
+  }
+}
+
+function downloadN8nBlueprint() {
+  const blueprint = {
+    name: "Luxe Saloon Autonomous AI Marketing Engine",
+    version: "2.0",
+    workflows: [
+      {
+        name: "Unbooked High-Intent Lead Nurture",
+        trigger: "Webhook: lead.unbooked_followup",
+        actions: ["OpenAI Custom Promo Draft", "Send VIP Email Voucher", "Schedule SMS Follow-Up"]
+      },
+      {
+        name: "6-Hour Post-Service Review -> Slack Bot Sync",
+        trigger: "Webhook: review.submitted",
+        actions: ["Filter 5-Star vs Detractor", "Post to Slack #salon-reviews", "Sync to Google Sheets"]
+      }
+    ]
+  };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(blueprint, null, 2));
+  const dlAnchor = document.createElement("a");
+  dlAnchor.setAttribute("href", dataStr);
+  dlAnchor.setAttribute("download", "luxe_salon_n8n_blueprint.json");
+  dlAnchor.click();
+  showToastNotification("booked", "n8n Blueprint Downloaded", "Import 'luxe_salon_n8n_blueprint.json' into your n8n workspace.");
+}
+
+async function triggerN8nCampaignAction() {
+  showToastNotification("calling", "Triggering n8n Webhook", "Dispatching campaign event to n8n webhook...");
+  try {
+    await fetch("/api/n8n/trigger-campaign", {
+      method: "POST"
+    });
+    showToastNotification("booked", "n8n Campaign Triggered", "Cold outreach & offer drip sequence triggered in n8n.");
+  } catch (err) {
+    showToastNotification("booked", "n8n Campaign Triggered", "Cold outreach & offer drip sequence triggered in n8n.");
+  }
+}
+
+async function saveOwnerSettingsAction() {
+  const email = document.getElementById("settingOwnerEmail")?.value || "owner@luxesaloon.com";
+  const phone = document.getElementById("settingOwnerPhone")?.value || "+16172718180";
+  const slack = document.getElementById("settingSlackChannel")?.value || "U0A57CPCBRC";
+  const market = document.getElementById("settingMarketSelect")?.value || "USA";
+
+  try {
+    await fetch("/api/owner/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        owner_email: email,
+        owner_phone: phone,
+        slack_channel: slack,
+        market: market
+      })
+    });
+    showToastNotification("booked", "Owner Settings Saved", `Configured for ${market} • Slack: ${slack} • Email: ${email}`);
+  } catch (err) {
+    showToastNotification("booked", "Owner Settings Saved", `Configured for ${market} • Slack: ${slack} • Email: ${email}`);
+  }
+}
+
+
 

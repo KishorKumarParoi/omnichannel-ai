@@ -396,6 +396,103 @@ def _init_postgres_schema(db: DBConnectionContext):
         )
     """)
 
+    # 8. Omnichannel Inbox Messages
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS inbox_messages (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            channel VARCHAR(32) NOT NULL,
+            sender_id TEXT NOT NULL,
+            sender_name TEXT DEFAULT '',
+            sender_phone TEXT DEFAULT '',
+            message_text TEXT NOT NULL,
+            is_from_customer BOOLEAN DEFAULT TRUE,
+            ai_auto_replied BOOLEAN DEFAULT FALSE,
+            ai_reply_text TEXT DEFAULT '',
+            status VARCHAR(32) DEFAULT 'unread',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 9. Customer Reviews & Sentiment Alerts
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS customer_reviews (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            booking_id VARCHAR(64) DEFAULT '',
+            customer_name TEXT NOT NULL,
+            customer_phone TEXT DEFAULT '',
+            customer_email TEXT DEFAULT '',
+            rating INTEGER NOT NULL,
+            review_text TEXT DEFAULT '',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            slack_alert_dispatched BOOLEAN DEFAULT FALSE,
+            google_review_prompted BOOLEAN DEFAULT FALSE,
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 10. Call Intelligence Reports & Lead Scoring
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS call_reports (
+            id SERIAL PRIMARY KEY,
+            call_id VARCHAR(128) UNIQUE NOT NULL,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            caller_phone TEXT DEFAULT '',
+            caller_name TEXT DEFAULT '',
+            caller_email TEXT DEFAULT '',
+            duration_seconds INTEGER DEFAULT 0,
+            service_inquired TEXT DEFAULT '',
+            call_outcome VARCHAR(64) DEFAULT 'inquiry',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            lead_score VARCHAR(32) DEFAULT 'LOW',
+            ltv_estimate REAL DEFAULT 0.0,
+            summary TEXT DEFAULT '',
+            action_items TEXT DEFAULT '[]',
+            is_booked BOOLEAN DEFAULT FALSE,
+            followup_call_scheduled BOOLEAN DEFAULT FALSE,
+            followup_call_status VARCHAR(32) DEFAULT 'pending',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 11. Lifecycle Marketing & Retention Campaigns
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS lifecycle_campaigns (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            campaign_type VARCHAR(64) NOT NULL,
+            customer_name TEXT NOT NULL,
+            customer_phone TEXT DEFAULT '',
+            customer_email TEXT DEFAULT '',
+            booking_id VARCHAR(64) DEFAULT '',
+            scheduled_time TEXT NOT NULL,
+            status VARCHAR(32) DEFAULT 'scheduled',
+            result_details TEXT DEFAULT '',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 12. Executive Financial & EBITDA Reports
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS financial_reports (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            report_type VARCHAR(32) DEFAULT 'monthly_ebitda',
+            market VARCHAR(32) DEFAULT 'USA',
+            currency VARCHAR(10) DEFAULT 'USD',
+            total_bookings INTEGER DEFAULT 0,
+            gross_revenue REAL DEFAULT 0.0,
+            labor_cost_saved REAL DEFAULT 0.0,
+            platform_fee REAL DEFAULT 0.0,
+            net_ebitda_contribution REAL DEFAULT 0.0,
+            ebitda_margin_pct TEXT DEFAULT '0%',
+            email_dispatched_to TEXT DEFAULT '',
+            created_at TEXT NOT NULL
+        )
+    """)
+
     # Seed Default Salon if not exists
     db.execute("SELECT COUNT(*) as count FROM tenants WHERE id = ?", (DEFAULT_TENANT_ID,))
     res = db.fetchone()
@@ -608,6 +705,103 @@ def _init_sqlite_schema(db: DBConnectionContext):
             evaluation_score TEXT DEFAULT '',
             action_items TEXT DEFAULT '[]',
             structured_data TEXT DEFAULT '{}',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 8. Omnichannel Inbox Messages
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS inbox_messages (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            channel VARCHAR(32) NOT NULL,
+            sender_id TEXT NOT NULL,
+            sender_name TEXT DEFAULT '',
+            sender_phone TEXT DEFAULT '',
+            message_text TEXT NOT NULL,
+            is_from_customer BOOLEAN DEFAULT TRUE,
+            ai_auto_replied BOOLEAN DEFAULT FALSE,
+            ai_reply_text TEXT DEFAULT '',
+            status VARCHAR(32) DEFAULT 'unread',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 9. Customer Reviews & Sentiment Alerts
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS customer_reviews (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            booking_id VARCHAR(64) DEFAULT '',
+            customer_name TEXT NOT NULL,
+            customer_phone TEXT DEFAULT '',
+            customer_email TEXT DEFAULT '',
+            rating INTEGER NOT NULL,
+            review_text TEXT DEFAULT '',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            slack_alert_dispatched BOOLEAN DEFAULT FALSE,
+            google_review_prompted BOOLEAN DEFAULT FALSE,
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 10. Call Intelligence Reports & Lead Scoring
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS call_reports (
+            id SERIAL PRIMARY KEY,
+            call_id VARCHAR(128) UNIQUE NOT NULL,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            caller_phone TEXT DEFAULT '',
+            caller_name TEXT DEFAULT '',
+            caller_email TEXT DEFAULT '',
+            duration_seconds INTEGER DEFAULT 0,
+            service_inquired TEXT DEFAULT '',
+            call_outcome VARCHAR(64) DEFAULT 'inquiry',
+            sentiment VARCHAR(32) DEFAULT 'neutral',
+            lead_score VARCHAR(32) DEFAULT 'LOW',
+            ltv_estimate REAL DEFAULT 0.0,
+            summary TEXT DEFAULT '',
+            action_items TEXT DEFAULT '[]',
+            is_booked BOOLEAN DEFAULT FALSE,
+            followup_call_scheduled BOOLEAN DEFAULT FALSE,
+            followup_call_status VARCHAR(32) DEFAULT 'pending',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 11. Lifecycle Marketing & Retention Campaigns
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS lifecycle_campaigns (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            campaign_type VARCHAR(64) NOT NULL,
+            customer_name TEXT NOT NULL,
+            customer_phone TEXT DEFAULT '',
+            customer_email TEXT DEFAULT '',
+            booking_id VARCHAR(64) DEFAULT '',
+            scheduled_time TEXT NOT NULL,
+            status VARCHAR(32) DEFAULT 'scheduled',
+            result_details TEXT DEFAULT '',
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    # 12. Executive Financial & EBITDA Reports
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS financial_reports (
+            id SERIAL PRIMARY KEY,
+            tenant_id VARCHAR(64) DEFAULT 'salon',
+            report_type VARCHAR(32) DEFAULT 'monthly_ebitda',
+            market VARCHAR(32) DEFAULT 'USA',
+            currency VARCHAR(10) DEFAULT 'USD',
+            total_bookings INTEGER DEFAULT 0,
+            gross_revenue REAL DEFAULT 0.0,
+            labor_cost_saved REAL DEFAULT 0.0,
+            platform_fee REAL DEFAULT 0.0,
+            net_ebitda_contribution REAL DEFAULT 0.0,
+            ebitda_margin_pct TEXT DEFAULT '0%',
+            email_dispatched_to TEXT DEFAULT '',
             created_at TEXT NOT NULL
         )
     """)
@@ -1906,4 +2100,195 @@ def get_call_analytics(tenant_id: Optional[str] = None) -> Dict[str, Any]:
         "outcome_distribution": outcomes,
         "sentiment_distribution": sentiments
     }
+
+
+# ==============================================================================
+# SALON OWNER OS - PERSISTENCE & QUERY HELPERS
+# ==============================================================================
+def save_call_report(report: Dict[str, Any]) -> Dict[str, Any]:
+    """Persists structured call intelligence report."""
+    init_db()
+    with DBConnectionContext() as db:
+        now = datetime.now().isoformat()
+        action_items_str = json.dumps(report.get("action_items", [])) if isinstance(report.get("action_items"), list) else str(report.get("action_items", "[]"))
+        db.execute("""
+            INSERT INTO call_reports (
+                call_id, tenant_id, caller_phone, caller_name, caller_email,
+                duration_seconds, service_inquired, call_outcome, sentiment,
+                lead_score, ltv_estimate, summary, action_items, is_booked,
+                followup_call_scheduled, followup_call_status, created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT (call_id) DO UPDATE SET
+                lead_score = EXCLUDED.lead_score,
+                ltv_estimate = EXCLUDED.ltv_estimate,
+                summary = EXCLUDED.summary,
+                action_items = EXCLUDED.action_items,
+                is_booked = EXCLUDED.is_booked
+        """, (
+            report.get("call_id"),
+            report.get("tenant_id", "salon"),
+            report.get("caller_phone", ""),
+            report.get("caller_name", "Valued Guest"),
+            report.get("caller_email", ""),
+            int(report.get("duration_seconds", 0)),
+            report.get("service_inquired", ""),
+            report.get("call_outcome", "inquiry"),
+            report.get("sentiment", "neutral"),
+            report.get("lead_score", "LOW"),
+            float(report.get("ltv_estimate", 0.0)),
+            report.get("summary", ""),
+            action_items_str,
+            1 if report.get("is_booked") else 0,
+            1 if report.get("followup_call_scheduled") else 0,
+            report.get("followup_call_status", "pending"),
+            report.get("created_at", now)
+        ))
+        db.commit()
+    return {"status": "saved", "call_id": report.get("call_id")}
+
+
+def get_call_reports(tenant_id: str = "salon", limit: int = 50) -> List[Dict[str, Any]]:
+    """Retrieves structured call intelligence reports."""
+    init_db()
+    with DBConnectionContext() as db:
+        db.execute("SELECT * FROM call_reports WHERE tenant_id = ? ORDER BY created_at DESC LIMIT ?", (tenant_id, limit))
+        rows = db.fetchall()
+        for r in rows:
+            if isinstance(r.get("action_items"), str):
+                try:
+                    r["action_items"] = json.loads(r["action_items"])
+                except Exception:
+                    pass
+        return rows
+
+
+def save_customer_review(review: Dict[str, Any]) -> Dict[str, Any]:
+    """Saves customer review submission."""
+    init_db()
+    with DBConnectionContext() as db:
+        now = datetime.now().isoformat()
+        db.execute("""
+            INSERT INTO customer_reviews (
+                tenant_id, booking_id, customer_name, customer_phone,
+                customer_email, rating, review_text, sentiment,
+                slack_alert_dispatched, google_review_prompted, created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            review.get("tenant_id", "salon"),
+            review.get("booking_id", ""),
+            review.get("customer_name", "Valued Client"),
+            review.get("customer_phone", ""),
+            review.get("customer_email", ""),
+            int(review.get("rating", 5)),
+            review.get("review_text", ""),
+            review.get("sentiment", "neutral"),
+            1 if review.get("slack_alert_dispatched") else 0,
+            1 if review.get("google_review_prompted") else 0,
+            review.get("created_at", now)
+        ))
+        db.commit()
+    return {"status": "saved"}
+
+
+def get_customer_reviews(tenant_id: str = "salon", limit: int = 50) -> List[Dict[str, Any]]:
+    """Retrieves recent customer reviews."""
+    init_db()
+    with DBConnectionContext() as db:
+        db.execute("SELECT * FROM customer_reviews WHERE tenant_id = ? ORDER BY created_at DESC LIMIT ?", (tenant_id, limit))
+        return db.fetchall()
+
+
+def save_lifecycle_campaign(campaign: Dict[str, Any]) -> Dict[str, Any]:
+    """Records an automated lifecycle retention campaign (review call, day 15 nudge, warm lead redial)."""
+    init_db()
+    with DBConnectionContext() as db:
+        now = datetime.now().isoformat()
+        db.execute("""
+            INSERT INTO lifecycle_campaigns (
+                tenant_id, campaign_type, customer_name, customer_phone,
+                customer_email, booking_id, scheduled_time, status,
+                result_details, created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            campaign.get("tenant_id", "salon"),
+            campaign.get("campaign_type", "warm_lead_redial"),
+            campaign.get("customer_name", ""),
+            campaign.get("customer_phone", ""),
+            campaign.get("customer_email", ""),
+            campaign.get("booking_id", ""),
+            campaign.get("scheduled_time", now),
+            campaign.get("status", "scheduled"),
+            campaign.get("result_details", ""),
+            campaign.get("created_at", now)
+        ))
+        db.commit()
+    return {"status": "saved"}
+
+
+def get_lifecycle_campaigns(tenant_id: str = "salon", limit: int = 50) -> List[Dict[str, Any]]:
+    """Lists scheduled or completed lifecycle retention tasks."""
+    init_db()
+    with DBConnectionContext() as db:
+        db.execute("SELECT * FROM lifecycle_campaigns WHERE tenant_id = ? ORDER BY created_at DESC LIMIT ?", (tenant_id, limit))
+        return db.fetchall()
+
+
+def save_inbox_message(msg: Dict[str, Any]) -> Dict[str, Any]:
+    """Persists an incoming or outgoing omnichannel inbox message."""
+    init_db()
+    with DBConnectionContext() as db:
+        now = datetime.now().isoformat()
+        db.execute("""
+            INSERT INTO inbox_messages (
+                tenant_id, channel, sender_id, sender_name, sender_phone,
+                message_text, is_from_customer, ai_auto_replied, ai_reply_text,
+                status, sentiment, created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            msg.get("tenant_id", "salon"),
+            msg.get("channel", "whatsapp"),
+            msg.get("sender_id", ""),
+            msg.get("sender_name", ""),
+            msg.get("sender_phone", ""),
+            msg.get("message_text", ""),
+            1 if msg.get("is_from_customer", True) else 0,
+            1 if msg.get("ai_auto_replied", False) else 0,
+            msg.get("ai_reply_text", ""),
+            msg.get("status", "unread"),
+            msg.get("sentiment", "neutral"),
+            msg.get("created_at", now)
+        ))
+        db.commit()
+    return {"status": "saved"}
+
+
+def get_inbox_threads_from_db(tenant_id: str = "salon") -> List[Dict[str, Any]]:
+    """Retrieves unique customer conversations grouped by sender_id and channel."""
+    init_db()
+    with DBConnectionContext() as db:
+        db.execute("""
+            SELECT sender_id, channel, MAX(created_at) as last_time,
+                   MAX(sender_name) as customer_name, MAX(sender_phone) as customer_phone,
+                   COUNT(CASE WHEN status = 'unread' AND is_from_customer = 1 THEN 1 END) as unread_count
+            FROM inbox_messages
+            WHERE tenant_id = ?
+            GROUP BY sender_id, channel
+            ORDER BY last_time DESC
+            LIMIT 30
+        """, (tenant_id,))
+        threads = db.fetchall()
+        for t in threads:
+            t["channel_badge"] = {
+                "whatsapp": "💬 WhatsApp",
+                "instagram": "📸 Instagram DM",
+                "facebook": "💙 Messenger",
+                "sms": "📱 SMS"
+            }.get(t.get("channel"), t.get("channel"))
+            t["autopilot_active"] = True
+        return threads
+
 

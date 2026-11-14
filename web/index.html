@@ -93,6 +93,7 @@
       <!-- Streamlined Minimal Nav Links -->
       <nav class="nav-links" style="display:flex; gap:8px; align-items:center;">
         <a href="#flock-gallery" class="nav-pill-link">✦ Cascading Showcase</a>
+        <a href="#owner-os-section" class="nav-pill-link" style="color:#fbbf24; font-weight:800; border:1px solid rgba(251,191,36,0.35); background:rgba(245,158,11,0.12);">👑 Salon Owner OS</a>
         <a href="#voice-highlight" class="nav-pill-link">Voice Studio</a>
         <a href="#instant-callback-section" class="nav-pill-link">WhatsApp &amp; Telnyx</a>
         <a href="#services-section" class="nav-pill-link">Services</a>
@@ -1028,6 +1029,412 @@
           </button>
         </div>
 
+      </div>
+    </section>
+
+    <!-- 👑 SALON OWNER AUTONOMOUS AI COMMAND CENTER (ONE-STOP B2B OPERATING SYSTEM) -->
+    <section class="owner-os-section" id="owner-os-section">
+      <div class="owner-os-header">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); padding:5px 16px; border-radius:999px; font-size:11px; font-weight:800; color:#fbbf24; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">
+          ✦ ONE-STOP AUTONOMOUS SALON OS • USA 🇺🇸 • UK 🇬🇧 • CANADA 🇨🇦
+        </div>
+        <h2 style="font-size:32px; font-weight:900; color:#fff; letter-spacing:-0.5px; margin:4px 0 10px 0;">
+          Salon Owner <span class="gradient-text-luxury">Autonomous AI Command Center</span>
+        </h2>
+        <p style="font-size:14.5px; color:#94a3b8; max-width:760px; margin:0 auto; line-height:1.6;">
+          Everything you need to run an extraordinary, high-margin salon on complete auto-pilot. 24/7 Voice Receptionist, direct WhatsApp/Instagram/Messenger inbox, 6-hour automated reviews, customer de-escalation, warm lead re-dialing, and monthly EBITDA reports.
+        </p>
+
+        <!-- Market Selector (USA, UK, Canada) -->
+        <div class="owner-market-selector">
+          <button class="market-pill-btn active" data-market="USA" onclick="selectOwnerMarket('USA', this)">
+            🇺🇸 USA (USD $ &bull; TCPA Safe)
+          </button>
+          <button class="market-pill-btn" data-market="UK" onclick="selectOwnerMarket('UK', this)">
+            🇬🇧 UK (GBP £ &bull; GDPR Safe)
+          </button>
+          <button class="market-pill-btn" data-market="Canada" onclick="selectOwnerMarket('Canada', this)">
+            🇨🇦 Canada (CAD $ &bull; CASL Safe)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Switcher Navigation -->
+      <div class="owner-tabs-nav">
+        <button class="owner-tab-btn active" data-pane="pane-inbox" onclick="switchOwnerTab('pane-inbox', this)">
+          <span>📬</span> Omnichannel Direct Inbox
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-ebitda" onclick="switchOwnerTab('pane-ebitda', this)">
+          <span>📊</span> Executive EBITDA Intelligence
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-calls" onclick="switchOwnerTab('pane-calls', this)">
+          <span>📞</span> Call Reports &amp; Warm Leads
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-reviews" onclick="switchOwnerTab('pane-reviews', this)">
+          <span>⭐</span> 6h Reviews &amp; Slack Alerts
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-lifecycle" onclick="switchOwnerTab('pane-lifecycle', this)">
+          <span>🔄</span> Lifecycle Calls &amp; n8n
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-settings" onclick="switchOwnerTab('pane-settings', this)">
+          <span>⚙️</span> Owner Settings
+        </button>
+      </div>
+
+      <!-- =====================================================================
+           PANE 1: OMNICHANNEL UNIFIED DIRECT INBOX (WhatsApp, IG, Messenger)
+           ===================================================================== -->
+      <div class="owner-tab-pane active" id="pane-inbox">
+        <div class="inbox-grid">
+          <!-- Left: Customer Thread List -->
+          <div class="inbox-thread-list">
+            <div class="inbox-thread-header">
+              <span style="font-size:12.5px; font-weight:800; color:#fff;">Direct Customer Inboxes</span>
+              <span style="font-size:11px; color:#34d399; font-weight:700;">🟢 Sofia Auto-Pilot: ACTIVE</span>
+            </div>
+            <div id="inboxThreadItems">
+              <!-- Dynamically populated or default threads -->
+              <div class="thread-item active" onclick="loadThreadConversation('wa_6172718180', 'Victoria Thorne', 'whatsapp', '+16172718180')">
+                <div class="thread-meta">
+                  <span class="thread-name">Victoria Thorne</span>
+                  <span class="thread-time">12m ago</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="thread-preview">Can I push my balayage by 30 mins tomorrow?</span>
+                  <span class="lead-badge high" style="font-size:9.5px; padding:1px 6px;">💬 WhatsApp</span>
+                </div>
+              </div>
+
+              <div class="thread-item" onclick="loadThreadConversation('ig_chloe', 'Chloe Laurent', 'instagram', '@chloelaurent_hair')">
+                <div class="thread-meta">
+                  <span class="thread-name">Chloe Laurent</span>
+                  <span class="thread-time">45m ago</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="thread-preview">Obsessed with the Japanese Gel manicure you posted!</span>
+                  <span class="lead-badge high" style="font-size:9.5px; padding:1px 6px; background:rgba(244,63,94,0.18); color:#fb7185; border-color:rgba(244,63,94,0.35);">📸 Instagram</span>
+                </div>
+              </div>
+
+              <div class="thread-item" onclick="loadThreadConversation('fb_sarah', 'Sarah Jenkins', 'facebook', 'sarah.jenkins.fb')">
+                <div class="thread-meta">
+                  <span class="thread-name">Sarah Jenkins</span>
+                  <span class="thread-time">2h ago</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="thread-preview">Do you provide HydraFacial MD for sensitive skin?</span>
+                  <span class="lead-badge high" style="font-size:9.5px; padding:1px 6px; background:rgba(56,189,248,0.18); color:#38bdf8; border-color:rgba(56,189,248,0.35);">💙 Messenger</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Active Chat View & Direct Reply Composer -->
+          <div class="inbox-chat-view">
+            <div class="chat-header-bar">
+              <div>
+                <div id="activeThreadName" style="font-size:15px; font-weight:800; color:#fff;">Victoria Thorne</div>
+                <div id="activeThreadChannel" style="font-size:11.5px; color:#38bdf8;">💬 WhatsApp Verified Lead &bull; +1 (617) 271-8180</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="lead-badge converted">Atomic Calendar Sync</span>
+                <button onclick="triggerQuickActionCall()" class="btn-ghost" style="padding:5px 12px; font-size:11.5px; border-radius:8px;">📞 Call Customer</button>
+              </div>
+            </div>
+
+            <div class="chat-message-stream" id="chatMessageStream">
+              <div class="chat-bubble customer">
+                Hi Sofia! Can I push my balayage appointment with Marcus by 30 minutes tomorrow? Something came up at work.
+              </div>
+              <div class="chat-bubble ai-copilot">
+                <b>✦ Sofia AI Auto-Reply:</b><br>
+                Hi Victoria! Absolutely. Marcus had 2:30 PM open, so I've updated your reservation to 2:30 PM tomorrow. Your calendar invite and WhatsApp confirmation are updated! See you tomorrow ✨
+              </div>
+            </div>
+
+            <!-- Composer with AI Copilot Assist -->
+            <div style="margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:11px; color:#94a3b8;">Manual Override or AI-Assisted Dispatch:</span>
+                <span style="font-size:11px; color:#34d399;">✓ Direct Channel Delivery</span>
+              </div>
+              <div class="inbox-composer-box">
+                <input type="text" id="inboxReplyInput" class="inbox-input" placeholder="Type a direct reply to customer (or let Sofia handle autonomously)..." value="Looking forward to seeing you at 2:30 PM tomorrow, Victoria!">
+                <button onclick="sendInboxReplyAction()" class="btn-primary" style="padding:0 20px; font-size:12.5px; font-weight:700; border-radius:12px; white-space:nowrap;">
+                  📤 Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 2: EXECUTIVE FINANCIAL & EBITDA INTELLIGENCE
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-ebitda">
+        <div class="ebitda-kpi-grid">
+          <div class="ebitda-card highlight">
+            <div class="ebitda-label" style="color:#34d399;">✦ Net Incremental EBITDA Lift</div>
+            <div class="ebitda-value" id="ebitdaNetVal" style="color:#34d399;">$7,678</div>
+            <div class="ebitda-sub"><b>16.4x ROI</b> on Sofia Platform Investment</div>
+          </div>
+
+          <div class="ebitda-card">
+            <div class="ebitda-label">Gross AI Booking Volume</div>
+            <div class="ebitda-value" id="ebitdaGrossVal">$13,860</div>
+            <div class="ebitda-sub">84 Appointments Booked &bull; Atomic Sync</div>
+          </div>
+
+          <div class="ebitda-card">
+            <div class="ebitda-label">Front-Desk Labor Saved</div>
+            <div class="ebitda-value" id="ebitdaLaborVal" style="color:#38bdf8;">$3,925</div>
+            <div class="ebitda-sub">157 Hours @ $25/hr wage benchmark</div>
+          </div>
+
+          <div class="ebitda-card">
+            <div class="ebitda-label">After-Hours Missed Revenue</div>
+            <div class="ebitda-value" id="ebitdaAfterHoursVal" style="color:#fbbf24;">$5,266</div>
+            <div class="ebitda-sub">38% of all calls captured after 7:00 PM</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(15,23,42,0.7); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 4px 0;">Automated Executive Dispatch to Your Inbox</h4>
+            <p style="font-size:12.5px; color:#94a3b8; margin:0;">
+              Receive comprehensive daily booking digests, weekly channel attribution, and end-of-month EBITDA reports.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="email" id="ownerReportEmail" placeholder="your.salon.owner@gmail.com" value="kishor.paroi@gmail.com" style="background:rgba(18,24,38,0.85); border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:9px 14px; font-size:12.5px; color:#fff; width:220px;">
+            <button onclick="dispatchEbitdaEmailAction()" class="btn-primary" style="padding:10px 20px; font-size:12.5px; font-weight:700; border-radius:10px; white-space:nowrap; background:linear-gradient(135deg, #10b981, #059669);">
+              📧 Send EBITDA Report Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 3: CALL INTELLIGENCE REPORTS & WARM LEAD RE-DIALER
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-calls">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 2px 0;">Caller Intelligence &amp; Lead Scoring Feed</h4>
+            <p style="font-size:12.5px; color:#94a3b8; margin:0;">Every phone call is transcribed, sentiment-analyzed, and scored for conversion potential.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button onclick="triggerSimulateCallReport()" class="btn-ghost" style="padding:7px 14px; font-size:12px; border-radius:8px;">+ Simulate New Call</button>
+            <button onclick="triggerAngryCustomerSimulation()" class="btn-ghost" style="padding:7px 14px; font-size:12px; border-radius:8px; border-color:rgba(244,63,94,0.4); color:#fb7185;">🛡️ Test De-escalation</button>
+          </div>
+        </div>
+
+        <div class="call-reports-table" id="callReportsContainer">
+          <!-- Row 1: High Potential Unbooked Lead -->
+          <div class="call-report-row">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:14px; font-weight:800; color:#fff;">Jessica Miller</span>
+                <span class="lead-badge high">🔥 HIGH POTENTIAL ($1,400 LTV)</span>
+                <span style="font-size:11px; color:#94a3b8;">118s &bull; +1 (617) 271-8180</span>
+              </div>
+              <div style="font-size:12px; color:#cbd5e1; max-width:620px;">
+                Inquired about Marcus's availability for Saturday Balayage &amp; Foilayage ($280). Loved pricing, dropped off to verify schedule with partner.
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button onclick="redialLeadAction('+16172718180', 'Jessica Miller', 'Signature Balayage')" class="btn-primary" style="padding:8px 16px; font-size:11.5px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000;">
+                📞 Sofia Re-Dial Lead
+              </button>
+            </div>
+          </div>
+
+          <!-- Row 2: Converted Appointment -->
+          <div class="call-report-row">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:14px; font-weight:800; color:#fff;">David Kim</span>
+                <span class="lead-badge converted">🟢 CONVERTED ($1,850 LTV)</span>
+                <span style="font-size:11px; color:#94a3b8;">94s &bull; +1 (667) 307-0119</span>
+              </div>
+              <div style="font-size:12px; color:#cbd5e1; max-width:620px;">
+                HydraFacial MD Deluxe confirmed for Friday 3:00 PM with Elena. Calendar invite and WhatsApp auto-receipt sent.
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="font-size:11.5px; color:#34d399; font-weight:700;">✓ Synced to Neon &amp; GCal</span>
+            </div>
+          </div>
+
+          <!-- Row 3: De-escalated Dissatisfied Customer -->
+          <div class="call-report-row" style="border-left:3px solid #f43f5e;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:14px; font-weight:800; color:#fff;">Amanda Cross</span>
+                <span class="lead-badge lost">⚠️ PACIFIED / DE-ESCALATED</span>
+                <span style="font-size:11px; color:#fb7185;">Sentiment: Frustrated</span>
+              </div>
+              <div style="font-size:12px; color:#cbd5e1; max-width:620px;">
+                Customer complained about Newbury parking delay on previous visit. Sofia acknowledged with deep empathy, offered $50 voucher, and alerted salon owner on Slack.
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="font-size:11.5px; color:#f59e0b; font-weight:700;">Slack Alert Dispatched</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 4: 6-HOUR AUTOMATED REVIEWS & SLACK BOT ALERTS
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-reviews">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex-wrap:wrap;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 6px 0;">6-Hour Post-Service Review Engine</h4>
+            <p style="font-size:12.5px; color:#94a3b8; line-height:1.5;">
+              6 hours after service completion, Sofia dispatches an interactive 1-to-5 star rating link to the customer via WhatsApp and Email.
+            </p>
+
+            <div style="background:rgba(18,24,38,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; margin-top:14px;">
+              <div style="font-size:12px; font-weight:800; color:#fbbf24; margin-bottom:6px;">✦ Smart Rating Routing:</div>
+              <ul style="font-size:12px; color:#cbd5e1; padding-left:18px; margin:0; line-height:1.6;">
+                <li><b>5-Star Rating:</b> Customer is redirected to Google Maps / Yelp to leave a public review, and a celebration alert posts to Slack.</li>
+                <li><b>1 to 3 Star Rating:</b> Customer is thanked for feedback, and an <b>Urgent Alert</b> posts to owner's Slack so the owner can intervene before any public review!</li>
+              </ul>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+              <button onclick="simulateReviewSubmission(5)" class="btn-primary" style="padding:9px 18px; font-size:12px; font-weight:700; border-radius:8px; background:linear-gradient(135deg, #10b981, #059669);">
+                ⭐ Test 5-Star Review Flow
+              </button>
+              <button onclick="simulateReviewSubmission(2)" class="btn-ghost" style="padding:9px 18px; font-size:12px; font-weight:700; border-radius:8px; border-color:rgba(244,63,94,0.4); color:#fb7185;">
+                🚨 Test 2-Star Detractor Alert
+              </button>
+            </div>
+          </div>
+
+          <!-- Real-Time Slack Alert Simulator -->
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 6px 0;">Live Slack Bot Notification Preview</h4>
+            <p style="font-size:12.5px; color:#94a3b8;">What you see on your Slack workspace (`U0A57CPCBRC`):</p>
+            <div class="slack-box-replica green" id="slackAlertPreview">
+              <div style="font-size:11px; font-weight:800; color:#2eb67d; text-transform:uppercase; margin-bottom:4px;">✦ SLACK BOT &bull; SALON REVIEWS</div>
+              <div style="font-size:14px; font-weight:800; color:#ffffff;">🌟 New 5-STAR Review Received!</div>
+              <div style="font-size:12px; color:#cbd5e1; margin:6px 0;">
+                <b>Customer:</b> Victoria Thorne &bull; <b>Rating:</b> ⭐⭐⭐⭐⭐ (5.0)<br>
+                <i>"Marcus is a master colorist. Balayage turned out beyond perfection! Sofia rebooking on WhatsApp was so seamless."</i>
+              </div>
+              <div style="font-size:10.5px; color:#2eb67d; font-weight:700;">✓ Customer redirected to Google Business Profile link</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 5: LIFECYCLE FOLLOW-UP CALLS & N8N AUTOMATION
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-lifecycle">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex-wrap:wrap;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 6px 0;">Automated Customer Lifecycle Calls</h4>
+            <p style="font-size:12.5px; color:#94a3b8; line-height:1.5;">
+              Keep clients loyal with automated, polite human-sounding check-in and re-booking calls.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:14px;">
+              <div style="background:rgba(18,24,38,0.75); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <span style="font-size:13.5px; font-weight:800; color:#fff;">Day 1 Post-Service Review Call</span>
+                  <span class="lead-badge high">24h SLA</span>
+                </div>
+                <p style="font-size:12px; color:#94a3b8; margin:0 0 10px 0;">Sofia calls client to verify hair styling or spa satisfaction and answer home-care questions.</p>
+                <button onclick="triggerLifecycleCallAction('day1_review_call')" class="btn-ghost" style="padding:6px 14px; font-size:11.5px; border-radius:8px;">
+                  📞 Trigger Test Day 1 Call
+                </button>
+              </div>
+
+              <div style="background:rgba(18,24,38,0.75); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <span style="font-size:13.5px; font-weight:800; color:#fff;">Day 15 Re-Booking Nudge Call</span>
+                  <span class="lead-badge high">Retention Drip</span>
+                </div>
+                <p style="font-size:12px; color:#94a3b8; margin:0 0 10px 0;">Sofia calls client to hold a 3-week toner/gloss refresh slot before Marcus's schedule fills up.</p>
+                <button onclick="triggerLifecycleCallAction('day15_rebook_call')" class="btn-ghost" style="padding:6px 14px; font-size:11.5px; border-radius:8px;">
+                  📞 Trigger Test Day 15 Nudge Call
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- n8n Automation Workflows -->
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 6px 0;">n8n Cold Outreach &amp; Campaign Automation</h4>
+            <p style="font-size:12.5px; color:#94a3b8; line-height:1.5;">
+              Connect your salon to n8n to automate cold email drips, special seasonal offers, and win-back campaigns.
+            </p>
+
+            <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:20px; margin-top:14px;">
+              <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:8px;">Pre-Configured n8n Workflows:</div>
+              <ul style="font-size:12px; color:#cbd5e1; padding-left:18px; margin:0 0 14px 0; line-height:1.6;">
+                <li><b>High-Intent Drop-off Email Drip:</b> Triggers personalized VIP offer for callers who didn't book.</li>
+                <li><b>6-Hour Review -> Slack Notification Pipeline:</b> Routes promoter reviews and detractor alerts.</li>
+                <li><b>30-Day Win-Back Cold Email:</b> Autonomous retention outreach for lapsed clients.</li>
+              </ul>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button onclick="downloadN8nBlueprint()" class="btn-primary" style="padding:8px 16px; font-size:12px; font-weight:700; border-radius:8px;">
+                  📥 Download n8n JSON Blueprint
+                </button>
+                <button onclick="triggerN8nCampaignAction()" class="btn-ghost" style="padding:8px 16px; font-size:12px; font-weight:700; border-radius:8px;">
+                  ⚡ Trigger Test n8n Webhook
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 6: OWNER SETTINGS & COMPLIANCE CONFIGURATION
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-settings">
+        <div style="max-width:680px; margin:0 auto; background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:26px;">
+          <h4 style="font-size:17px; font-weight:800; color:#fff; margin:0 0 6px 0;">Salon Owner Profile &amp; International Compliance</h4>
+          <p style="font-size:12.5px; color:#94a3b8; margin:0 0 20px 0;">
+            Configure notifications, Slack integration, and regulatory compliance standards for USA, UK, or Canada.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div>
+              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner Email (For Daily &amp; Monthly EBITDA Reports)</label>
+              <input type="email" id="settingOwnerEmail" class="inbox-input" value="kishor.paroi@gmail.com" style="width:100%;">
+            </div>
+
+            <div>
+              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner Emergency Mobile Phone (For Break-Glass Escalations)</label>
+              <input type="tel" id="settingOwnerPhone" class="inbox-input" value="+16172718180" style="width:100%;">
+            </div>
+
+            <div>
+              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Slack User / Channel ID (For Real-Time De-escalation &amp; Review Alerts)</label>
+              <input type="text" id="settingSlackChannel" class="inbox-input" value="U0A57CPCBRC" style="width:100%;">
+            </div>
+
+            <div>
+              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Target Market &amp; Regulatory Standard</label>
+              <select id="settingMarketSelect" class="inbox-input" style="width:100%;" onchange="selectOwnerMarket(this.value)">
+                <option value="USA">🇺🇸 United States (USD $ &bull; TCPA &amp; FTC Safe Harbor Compliant)</option>
+                <option value="UK">🇬🇧 United Kingdom (GBP £ &bull; GDPR &amp; PECR Direct Marketing Compliant)</option>
+                <option value="Canada">🇨🇦 Canada (CAD $ &bull; CASL Anti-Spam Compliant)</option>
+              </select>
+            </div>
+
+            <button onclick="saveOwnerSettingsAction()" class="btn-primary" style="margin-top:10px; padding:12px; font-size:13.5px; font-weight:800; border-radius:10px; justify-content:center;">
+              💾 Save Salon Owner OS Settings
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 

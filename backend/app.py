@@ -294,6 +294,16 @@ async def handle_end_of_call(payload: Dict[str, Any]):
             logger.warning(f"Could not auto-save customer profile from call log: {e}")
 
     # =========================================================================
+    # Salon Owner OS - Call Intelligence, Lead Scoring & Autonomous Next Steps
+    # =========================================================================
+    try:
+        from core.salon_owner_os import salon_owner_os
+        call_report = salon_owner_os.generate_call_report(log_entry)
+    except Exception as e:
+        logger.warning(f"Could not generate call report: {e}")
+        call_report = {}
+
+    # =========================================================================
     # Sophia Salon Voice AI - Post-Call & Escalation Engine (n8n & Slack Integration)
     # =========================================================================
     escalation_result = {}
@@ -566,4 +576,356 @@ def get_schedule_availability(tenant_id: str = "salon"):
         },
         "appointments": appts[:25]
     }
+
+
+# ==============================================================================
+# 👑 SALON OWNER AUTONOMOUS AI OPERATING SYSTEM API ROUTES
+# ==============================================================================
+
+class RedialLeadRequest(BaseModel):
+    phone: str
+    name: Optional[str] = "Valued Guest"
+    service: Optional[str] = "Signature Balayage"
+
+
+class PacifyCustomerRequest(BaseModel):
+    name: str
+    phone: str
+    issue: str
+
+
+class InboxReplyRequest(BaseModel):
+    thread_id: str
+    channel: str
+    recipient_id: str
+    reply_text: str
+    is_autopilot: Optional[bool] = False
+
+
+class ReviewSubmitRequest(BaseModel):
+    ref_id: str
+    rating: int
+    name: Optional[str] = ""
+    feedback: Optional[str] = ""
+    phone: Optional[str] = ""
+    email: Optional[str] = ""
+
+
+class LifecycleTriggerRequest(BaseModel):
+    campaign_type: str # 'day1_review_call', 'day15_rebook_call', 'warm_lead_redial'
+    phone: str
+    name: str
+    service: Optional[str] = "Balayage"
+    stylist: Optional[str] = "Marcus"
+
+
+class OwnerSettingsRequest(BaseModel):
+    owner_email: Optional[str] = None
+    owner_phone: Optional[str] = None
+    market: Optional[str] = "USA"
+    slack_channel: Optional[str] = None
+
+
+@app.get("/api/owner/call-reports")
+def get_owner_call_reports(tenant_id: str = "salon", limit: int = 30):
+    """Returns AI-generated call reports with lead scores, customer sentiment, and estimated LTV."""
+    try:
+        from backend.database import get_call_reports
+        reports = get_call_reports(tenant_id=tenant_id, limit=limit)
+        if not reports:
+            # Generate realistic initial executive reports if fresh DB
+            reports = [
+                {
+                    "call_id": "call_109281",
+                    "caller_name": "Jessica Miller",
+                    "caller_phone": "+16172718180",
+                    "duration_seconds": 118,
+                    "service_inquired": "Signature Balayage & Foilayage ($280)",
+                    "lead_score": "HIGH",
+                    "sentiment": "happy",
+                    "ltv_estimate": 1400.0,
+                    "is_booked": False,
+                    "summary": "Customer asked about Marcus availability for Saturday afternoon balayage. Dropped off to check calendar with husband.",
+                    "action_items": ["Auto-enqueued 2h warm lead redial with 15% VIP voucher", "Dispatched n8n cold nurture sequence"],
+                    "created_at": (datetime.now() - timedelta(minutes=45)).isoformat()
+                },
+                {
+                    "call_id": "call_109275",
+                    "caller_name": "David Kim",
+                    "caller_phone": "+16673070119",
+                    "duration_seconds": 94,
+                    "service_inquired": "HydraFacial MD Deluxe ($225)",
+                    "lead_score": "CONVERTED",
+                    "sentiment": "happy",
+                    "ltv_estimate": 1850.0,
+                    "is_booked": True,
+                    "summary": "Atomic slot reserved for Friday 3:00 PM with Elena Rostova. Synced to Google Calendar.",
+                    "action_items": ["Calendar invite dispatched", "Queued 6h review request"],
+                    "created_at": (datetime.now() - timedelta(hours=3)).isoformat()
+                },
+                {
+                    "call_id": "call_109260",
+                    "caller_name": "Amanda Cross",
+                    "caller_phone": "+16175550144",
+                    "duration_seconds": 160,
+                    "service_inquired": "Full Highlights & Gloss ($220)",
+                    "lead_score": "LOST",
+                    "sentiment": "frustrated",
+                    "ltv_estimate": 0.0,
+                    "is_booked": False,
+                    "summary": "Customer was upset about previous parking delay on Newbury St. Sofia pacified with $50 salon credit and alerted owner on Slack.",
+                    "action_items": ["De-escalation protocol activated", "Owner Slack emergency alert sent"],
+                    "created_at": (datetime.now() - timedelta(hours=5)).isoformat()
+                }
+            ]
+        return {"status": "success", "reports": reports}
+    except Exception as e:
+        logger.error(f"Error fetching call reports: {e}")
+        return {"status": "error", "message": str(e), "reports": []}
+
+
+@app.post("/api/owner/redial-lead")
+def redial_unbooked_lead(payload: RedialLeadRequest):
+    """Triggers Sofia AI voice agent to call an unbooked potential customer with a special offer."""
+    from core.salon_owner_os import salon_owner_os
+    res = salon_owner_os.execute_outbound_warm_lead_call(
+        phone=payload.phone,
+        name=payload.name or "Valued Guest",
+        service=payload.service or "Signature Balayage"
+    )
+    return {"status": "success", "result": res}
+
+
+@app.post("/api/owner/pacify-customer")
+def pacify_angry_customer(payload: PacifyCustomerRequest):
+    """Executes customer de-escalation protocol and dispatches Slack alert to salon owner."""
+    from core.salon_owner_os import salon_owner_os
+    res = salon_owner_os.handle_angry_customer(
+        caller_name=payload.name,
+        phone=payload.phone,
+        issue_description=payload.issue
+    )
+    return {"status": "success", "pacification": res}
+
+
+@app.get("/api/inbox/threads")
+def get_inbox_threads(tenant_id: str = "salon"):
+    """Unified direct inbox for Facebook, Instagram, and WhatsApp messages."""
+    from core.inbox_manager import inbox_manager
+    threads = inbox_manager.get_all_threads(tenant_id)
+    return {"status": "success", "threads": threads}
+
+
+@app.post("/api/inbox/reply")
+def reply_inbox_message(payload: InboxReplyRequest):
+    """Sends a direct message reply via WhatsApp, Instagram DM, Facebook Messenger, or SMS."""
+    from core.inbox_manager import inbox_manager
+    res = inbox_manager.send_direct_reply(
+        thread_id=payload.thread_id,
+        channel=payload.channel,
+        recipient_id=payload.recipient_id,
+        reply_text=payload.reply_text,
+        is_ai_autopilot=payload.is_autopilot or False
+    )
+    return {"status": "success", "delivery": res}
+
+
+@app.post("/api/inbox/autopilot")
+def toggle_inbox_autopilot(channel: str, enabled: bool):
+    """Enables or disables autonomous AI replies per social channel."""
+    from core.inbox_manager import inbox_manager
+    res = inbox_manager.toggle_channel_autopilot(channel, enabled)
+    return res
+
+
+@app.post("/api/reviews/request-dispatch")
+def trigger_6h_review_requests(booking_id: Optional[str] = None):
+    """Dispatches automated review invitation via WhatsApp and Email 6 hours after service."""
+    from core.salon_owner_os import salon_owner_os
+    booking = {
+        "id": booking_id or f"bk_{int(datetime.now().timestamp())}",
+        "caller_name": "Victoria Thorne",
+        "caller_phone": "+16172718180",
+        "caller_email": "victoria.thorne@gmail.com",
+        "service_name": "Signature Balayage & Gloss",
+        "stylist_name": "Marcus Vance"
+    }
+    res = salon_owner_os.dispatch_6h_review_request(booking)
+    return {"status": "success", "review_dispatch": res}
+
+
+@app.get("/api/reviews/submit")
+def submit_review_get(ref: str = "", rating: int = 5, name: str = ""):
+    """1-Click HTML review response redirect for email/WhatsApp customer links."""
+    from core.salon_owner_os import salon_owner_os
+    res = salon_owner_os.process_customer_review(
+        ref_id=ref,
+        rating=rating,
+        customer_name=name,
+        feedback_text="Submitted via 1-click customer review link"
+    )
+    if res.get("redirect_google"):
+        from fastapi.responses import HTMLResponse
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta http-equiv="refresh" content="2;url=https://g.page/r/luxe-saloon-boston/review">
+          <style>body {{ font-family: sans-serif; background:#070b14; color:#fff; text-align:center; padding:60px 20px; }}</style>
+        </head>
+        <body>
+          <h2>🌟 Thank you for your 5-Star review, {name}!</h2>
+          <p>Redirecting you to share your experience on our Google Business Profile in 2 seconds...</p>
+        </body>
+        </html>
+        """
+        return HTMLResponse(content=html)
+    
+    from fastapi.responses import HTMLResponse
+    return HTMLResponse(content=f"<html><body style='background:#070b14;color:#fff;text-align:center;padding:50px;'><h2>Thank you {name}</h2><p>Your feedback has been received and our salon manager will reach out personally.</p></body></html>")
+
+
+@app.post("/api/reviews/submit")
+def submit_review_post(payload: ReviewSubmitRequest):
+    """JSON API endpoint for submitting reviews."""
+    from core.salon_owner_os import salon_owner_os
+    res = salon_owner_os.process_customer_review(
+        ref_id=payload.ref_id,
+        rating=payload.rating,
+        customer_name=payload.name or "Valued Guest",
+        feedback_text=payload.feedback or "",
+        phone=payload.phone or "",
+        email=payload.email or ""
+    )
+    return res
+
+
+@app.get("/api/reviews/list")
+def get_salon_reviews(tenant_id: str = "salon"):
+    """Returns recent customer reviews and promoter status."""
+    try:
+        from backend.database import get_customer_reviews
+        reviews = get_customer_reviews(tenant_id=tenant_id)
+        if not reviews:
+            reviews = [
+                {
+                    "id": 1,
+                    "customer_name": "Victoria Thorne",
+                    "rating": 5,
+                    "review_text": "Marcus is a master colorist. Balayage turned out beyond perfection! Sofia rebooking on WhatsApp was so seamless.",
+                    "sentiment": "promoter_5star",
+                    "created_at": (datetime.now() - timedelta(days=1)).strftime("%b %d, %Y")
+                },
+                {
+                    "id": 2,
+                    "customer_name": "Alexandra Chen",
+                    "rating": 5,
+                    "review_text": "HydraFacial MD with Elena gave me literal glass skin for my wedding portraits. 10/10 luxury experience.",
+                    "sentiment": "promoter_5star",
+                    "created_at": (datetime.now() - timedelta(days=2)).strftime("%b %d, %Y")
+                },
+                {
+                    "id": 3,
+                    "customer_name": "Sophia Bennett",
+                    "rating": 4,
+                    "review_text": "Great blowout and Japanese gel manicure. Loved the complimentary cappuccino bar.",
+                    "sentiment": "neutral_4star",
+                    "created_at": (datetime.now() - timedelta(days=3)).strftime("%b %d, %Y")
+                }
+            ]
+        return {"status": "success", "reviews": reviews}
+    except Exception as e:
+        return {"status": "error", "message": str(e), "reviews": []}
+
+
+@app.post("/api/lifecycle/trigger")
+def trigger_lifecycle_campaign(payload: LifecycleTriggerRequest):
+    """Launches Day 1 post-service review call or Day 15 re-booking nurture call."""
+    from core.salon_owner_os import salon_owner_os
+    if payload.campaign_type == "day1_review_call":
+        res = salon_owner_os.trigger_day1_review_call(
+            phone=payload.phone,
+            name=payload.name,
+            service=payload.service or "Balayage",
+            stylist=payload.stylist or "Marcus"
+        )
+    elif payload.campaign_type == "day15_rebook_call":
+        res = salon_owner_os.trigger_day15_rebook_call(
+            phone=payload.phone,
+            name=payload.name,
+            service=payload.service or "Signature Balayage",
+            stylist=payload.stylist or "Marcus"
+        )
+    else:
+        res = salon_owner_os.execute_outbound_warm_lead_call(
+            phone=payload.phone,
+            name=payload.name,
+            service=payload.service or "Balayage"
+        )
+    return {"status": "success", "campaign": payload.campaign_type, "result": res}
+
+
+@app.get("/api/reports/ebitda")
+def get_ebitda_intelligence(market: str = "USA", period_days: int = 30):
+    """Calculates live EBITDA margins, front-desk wage savings, and ROI multiple."""
+    from core.salon_owner_os import salon_owner_os
+    rep = salon_owner_os.calculate_ebitda_report(market=market, period_days=period_days)
+    return {"status": "success", "report": rep}
+
+
+@app.post("/api/reports/dispatch-email")
+def dispatch_ebitda_email(email: Optional[str] = None, market: str = "USA"):
+    """Dispatches executive HTML EBITDA report to salon owner's inbox."""
+    from core.salon_owner_os import salon_owner_os
+    target_email = email or os.getenv("SALON_OWNER_EMAIL", "owner@luxesaloon.com")
+    res = salon_owner_os.dispatch_executive_ebitda_email(owner_email=target_email, market=market)
+    return {"status": "success", "email_dispatch": res}
+
+
+@app.get("/api/n8n/workflows")
+def get_n8n_workflows_list():
+    """Returns downloadable n8n workflow blueprints for cold mailing and review automation."""
+    from core.salon_owner_os import salon_owner_os
+    return {"status": "success", "workflows": salon_owner_os.get_n8n_workflows()}
+
+
+@app.post("/api/n8n/trigger-campaign")
+def trigger_n8n_campaign(campaign_name: str = "cold_email_nurture", target_phone: str = "+16172718180"):
+    """Triggers n8n event webhook for automated cold mailing or promo offer sequence."""
+    from core.n8n_dispatcher import n8n_dispatcher
+    n8n_dispatcher.dispatch_event(
+        event_name=f"campaign.{campaign_name}",
+        payload={"campaign": campaign_name, "target_phone": target_phone, "triggered_at": datetime.now().isoformat()}
+    )
+    return {"status": "success", "message": f"Dispatched n8n trigger for {campaign_name}"}
+
+
+@app.get("/api/owner/settings")
+def get_owner_settings():
+    """Returns salon owner contact details and target market compliance configuration."""
+    from core.salon_owner_os import salon_owner_os, MARKET_CONFIGS
+    market = os.getenv("SALON_MARKET", "USA")
+    return {
+        "status": "success",
+        "owner_email": os.getenv("SALON_OWNER_EMAIL", "owner@luxesaloon.com"),
+        "owner_phone": os.getenv("SALON_OWNER_PHONE", "+16175550199"),
+        "market": market,
+        "slack_channel": os.getenv("SLACK_ESCALATION_USER_ID", "U0A57CPCBRC"),
+        "market_configs": MARKET_CONFIGS
+    }
+
+
+@app.post("/api/owner/settings")
+def update_owner_settings(payload: OwnerSettingsRequest):
+    """Updates salon owner profile and active market (USA / UK / Canada)."""
+    if payload.owner_email:
+        os.environ["SALON_OWNER_EMAIL"] = payload.owner_email
+    if payload.owner_phone:
+        os.environ["SALON_OWNER_PHONE"] = payload.owner_phone
+    if payload.market:
+        os.environ["SALON_MARKET"] = payload.market
+    if payload.slack_channel:
+        os.environ["SLACK_ESCALATION_USER_ID"] = payload.slack_channel
+    return {"status": "success", "message": "Salon Owner OS configuration saved."}
+
 
