@@ -1,0 +1,366 @@
+[
+  {
+    "id": "4b452812-26e1-455e-96ba-439aa3c2bedd",
+    "createdAt": "2026-11-10T05:06:03.335Z",
+    "updatedAt": "2026-11-10T05:06:03.335Z",
+    "type": "function",
+    "function": {
+      "name": "update_customer_details",
+      "description": "Updates, confirms, and securely saves the caller name, mobile phone number, and email address in the database as soon as the caller provides or confirms them.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "caller_name": {
+            "description": "Full name of the guest.",
+            "type": "string"
+          },
+          "caller_email": {
+            "description": "Guest email address for calendar invites and receipts.",
+            "type": "string"
+          },
+          "caller_phone": {
+            "description": "Guest mobile or WhatsApp phone number in E.164 format (e.g. +16175550199 or international format).",
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v1"
+  },
+  {
+    "id": "bc7cd5dd-e6c0-4b52-af1e-c1ce050d3579",
+    "createdAt": "2026-11-09T16:58:25.613Z",
+    "updatedAt": "2026-11-09T16:58:25.613Z",
+    "type": "function",
+    "function": {
+      "name": "transfer_to_manager",
+      "description": "Warmly escalates and transfers the caller to our human salon manager or front desk supervisor for complex requests, VIP disputes, custom requests, or when explicitly requested.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "description": "Specific reason for escalating to the manager.",
+            "type": "string"
+          },
+          "caller_name": {
+            "description": "Name of the caller if provided.",
+            "type": "string"
+          },
+          "caller_phone": {
+            "description": "Phone number of the caller.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v1"
+  },
+  {
+    "id": "c402a27a-cae3-48ce-817c-c4f0070def32",
+    "createdAt": "2026-11-08T09:24:33.756Z",
+    "updatedAt": "2026-11-08T09:24:33.756Z",
+    "type": "transferCall",
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "destinations": [
+      {
+        "type": "assistant",
+        "description": "Transfer the call back to Sophia, Front Desk Voice Receptionist, whenever the caller asks to speak with Sophia, wants front desk scheduling, nails, facial, or general salon reception check-in.",
+        "assistantName": "Luxe Salon Voice Receptionist - Sophia"
+      }
+    ],
+    "latestVersion": "v1"
+  },
+  {
+    "id": "01bd1df8-f0c2-4640-bc65-4371a2e4e353",
+    "createdAt": "2026-11-08T09:24:33.483Z",
+    "updatedAt": "2026-11-10T13:25:11.277Z",
+    "type": "transferCall",
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "destinations": [
+      {
+        "type": "assistant",
+        "assistantName": "Luxe Salon Director - Marcus"
+      }
+    ],
+    "latestVersion": "v4"
+  },
+  {
+    "id": "d72cf825-1222-42cf-b3f7-843c3a06deb4",
+    "createdAt": "2026-11-08T09:24:33.211Z",
+    "updatedAt": "2026-11-08T09:24:33.211Z",
+    "type": "endCall",
+    "function": {
+      "name": "end_call",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "messages": [
+      {
+        "type": "request-start",
+        "blocking": false
+      }
+    ],
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "latestVersion": "v1"
+  },
+  {
+    "id": "cf4d3198-b52a-44b8-ab16-1ccde345e2f9",
+    "createdAt": "2026-11-08T09:24:32.936Z",
+    "updatedAt": "2026-11-09T14:53:48.856Z",
+    "type": "function",
+    "function": {
+      "name": "query_knowledge_base",
+      "description": "Queries the salon knowledge base for treatments, pricing, parking, directions, and salon policies.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The customer's question regarding services, pricing, or policies.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  },
+  {
+    "id": "d4a55cbb-2c60-44e2-b916-15931d07f091",
+    "createdAt": "2026-11-08T09:24:32.669Z",
+    "updatedAt": "2026-11-09T14:53:48.414Z",
+    "type": "function",
+    "function": {
+      "name": "send_text",
+      "description": "Sends an instant SMS or WhatsApp confirmation message with booking links or directions to the client's phone.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "message_body": {
+            "description": "Content of the text message.",
+            "type": "string"
+          },
+          "recipient_phone": {
+            "description": "Recipient phone number in E.164 format.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "recipient_phone",
+          "message_body"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  },
+  {
+    "id": "fca2e93e-b963-469c-beaf-c4d4f9ee1f61",
+    "createdAt": "2026-11-08T09:24:32.400Z",
+    "updatedAt": "2026-11-09T14:53:47.992Z",
+    "type": "function",
+    "function": {
+      "name": "cancel_appointment",
+      "description": "Cancels an existing appointment, releases the Google Calendar slot, and updates Google Sheets.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "description": "Caller phone number.",
+            "type": "string"
+          },
+          "cancellation_reason": {
+            "description": "Brief reason for cancellation.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone_number"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  },
+  {
+    "id": "c330c825-a0f6-40cb-9225-eb72ca655025",
+    "createdAt": "2026-11-08T09:24:32.138Z",
+    "updatedAt": "2026-11-09T14:53:47.594Z",
+    "type": "function",
+    "function": {
+      "name": "reschedule_appointment",
+      "description": "Reschedules an existing confirmed appointment to a new date and time.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "description": "Reason for rescheduling (optional).",
+            "type": "string"
+          },
+          "new_datetime": {
+            "description": "Target new ISO 8601 datetime string.",
+            "type": "string"
+          },
+          "phone_number": {
+            "description": "Caller phone number.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone_number",
+          "new_datetime"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  },
+  {
+    "id": "9df322c5-64af-44a7-b82f-105fb11e17ac",
+    "createdAt": "2026-11-08T09:24:31.831Z",
+    "updatedAt": "2026-11-09T14:53:47.164Z",
+    "type": "function",
+    "function": {
+      "name": "lookup_appointment",
+      "description": "Looks up existing appointment details for a client using their phone number or full name.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "description": "Caller phone number in E.164 format.",
+            "type": "string"
+          },
+          "customer_name": {
+            "description": "Customer name to search for if phone number is unavailable.",
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  },
+  {
+    "id": "5477f565-44fd-4041-a39d-4a63ab165f40",
+    "createdAt": "2026-11-08T09:24:31.565Z",
+    "updatedAt": "2026-11-09T14:53:46.255Z",
+    "type": "function",
+    "function": {
+      "name": "book_appointment",
+      "description": "Commits an appointment directly to Google Calendar, Neon PostgreSQL database, live Google Sheets, and dispatches instant luxury email and WhatsApp confirmations with dual 24h and 1h reminders.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "caller_name": {
+            "description": "Full name of the guest.",
+            "type": "string"
+          },
+          "caller_email": {
+            "description": "Guest email address to receive immediate luxury HTML confirmation, 1-click Google Calendar add link, and .ics calendar invite.",
+            "type": "string"
+          },
+          "caller_phone": {
+            "description": "Caller mobile/WhatsApp phone number in standard international format (e.g. +16175550199 or national format).",
+            "type": "string"
+          },
+          "service_name": {
+            "description": "Selected salon service (e.g. Signature Balayage, Precision Haircut, Deluxe HydraFacial MD, 24K Gold Facial, Keratin Treatment, Japanese Gel Manicure).",
+            "type": "string"
+          },
+          "stylist_name": {
+            "description": "Assigned stylist or aesthetician (Marcus Vance, Sofia Alston, Elena Rostova, Chloe Laurent, or Any).",
+            "type": "string"
+          },
+          "appointment_datetime": {
+            "description": "ISO 8601 formatted datetime string (e.g. 2026-11-10T14:00:00).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caller_name",
+          "caller_phone",
+          "caller_email",
+          "service_name",
+          "appointment_datetime"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v3"
+  },
+  {
+    "id": "6c0d28b5-1258-45b7-97a5-a7fe981deff5",
+    "createdAt": "2026-11-08T09:24:31.293Z",
+    "updatedAt": "2026-11-09T14:53:46.714Z",
+    "type": "function",
+    "function": {
+      "name": "check_availability",
+      "description": "Checks real-time open appointment slots against Google Calendar and salon stylist schedules.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "target_date": {
+            "description": "Target date string (e.g. 'tomorrow', '2026-11-09', 'this Saturday').",
+            "type": "string"
+          },
+          "service_name": {
+            "description": "Salon service requested (e.g. Balayage, Womens Haircut, Keratin, HydraFacial).",
+            "type": "string"
+          },
+          "preferred_time": {
+            "description": "Optional preferred time of day (e.g. '2:00 PM', 'morning', 'afternoon').",
+            "type": "string"
+          },
+          "preferred_stylist": {
+            "description": "Preferred stylist name (Marcus, Elena, Chloe, Sofia, or Any).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "service_name"
+        ]
+      }
+    },
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "server": {
+      "url": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools"
+    },
+    "latestVersion": "v2"
+  }
+]

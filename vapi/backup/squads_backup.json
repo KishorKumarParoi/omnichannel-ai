@@ -1,0 +1,137 @@
+[
+  {
+    "id": "816b5fbf-8eb1-4e26-805b-3cc6caade9ce",
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "createdAt": "2026-11-08T08:41:13.492Z",
+    "updatedAt": "2026-11-09T05:41:51.400Z",
+    "members": [
+      {
+        "assistantId": "b9242970-fbef-4991-8e94-4e59ebd4ab47",
+        "assistantDestinations": [
+          {
+            "description": "Transfer to Marcus Vance for hair coloring, balayage, keratin, master styling, or salon director consultations.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Director - Marcus"
+          },
+          {
+            "description": "Transfer to Kishor for technical operations, software customization, API integrations, webhooks, or coding assistance.",
+            "type": "assistant",
+            "assistantName": "AI Forward Deployment Engineer - Kishor"
+          },
+          {
+            "description": "Transfer to Tasnim for luxury packages, high-ticket memberships, bridal packages, or commercial sales deals.",
+            "type": "assistant",
+            "assistantName": "Head of Sales - Tasnim"
+          },
+          {
+            "description": "Transfer to Raiyan for VIP customer relations, special requests, feedback, or dispute resolution.",
+            "type": "assistant",
+            "assistantName": "Director of Communications - Raiyan"
+          }
+        ]
+      },
+      {
+        "assistantId": "f8b6b7fc-ce8e-452c-bb8b-90b27bedb8cb",
+        "assistantDestinations": [
+          {
+            "description": "Transfer back to Sophia for front-desk scheduling, routine haircuts, nails, facials, or general reception.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Voice Receptionist - Sophia"
+          },
+          {
+            "description": "Transfer to Kishor for technical software, operational customization, or developer questions.",
+            "type": "assistant",
+            "assistantName": "AI Forward Deployment Engineer - Kishor"
+          },
+          {
+            "description": "Transfer to Tasnim for package negotiations, corporate styling bundles, or sales pricing.",
+            "type": "assistant",
+            "assistantName": "Head of Sales - Tasnim"
+          },
+          {
+            "description": "Transfer to Raiyan for client feedback, VIP correspondence, or communications.",
+            "type": "assistant",
+            "assistantName": "Director of Communications - Raiyan"
+          }
+        ]
+      },
+      {
+        "assistantId": "bbfb3462-1d8d-4e61-94a1-607952fb61e6",
+        "assistantDestinations": [
+          {
+            "description": "Transfer to Sophia for standard salon bookings, front desk check-in, or reception.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Voice Receptionist - Sophia"
+          },
+          {
+            "description": "Transfer to Marcus for master styling, hair coloring, balayage, or salon creative direction.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Director - Marcus"
+          },
+          {
+            "description": "Transfer to Tasnim for enterprise sales contracts, commercial package deals, or pricing tiers.",
+            "type": "assistant",
+            "assistantName": "Head of Sales - Tasnim"
+          },
+          {
+            "description": "Transfer to Raiyan for corporate communications, client relations, or executive escalations.",
+            "type": "assistant",
+            "assistantName": "Director of Communications - Raiyan"
+          }
+        ]
+      },
+      {
+        "assistantId": "0a8c43e6-5c12-482f-8d01-fb1573bb0bed",
+        "assistantDestinations": [
+          {
+            "description": "Transfer to Sophia for routine salon appointments, nails, facials, or reception scheduling.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Voice Receptionist - Sophia"
+          },
+          {
+            "description": "Transfer to Marcus for custom styling consultations, color formulation, or hair design.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Director - Marcus"
+          },
+          {
+            "description": "Transfer to Kishor for technical feasibility, software setup, API integration, or automation.",
+            "type": "assistant",
+            "assistantName": "AI Forward Deployment Engineer - Kishor"
+          },
+          {
+            "description": "Transfer to Raiyan for PR, media inquiries, partner relations, or client satisfaction.",
+            "type": "assistant",
+            "assistantName": "Director of Communications - Raiyan"
+          }
+        ]
+      },
+      {
+        "assistantId": "7585a6ea-eb5a-47d4-b805-d1ffc960d493",
+        "assistantDestinations": [
+          {
+            "description": "Transfer to Sophia for regular appointment bookings, front-desk check-ins, or general reception.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Voice Receptionist - Sophia"
+          },
+          {
+            "description": "Transfer to Marcus for stylist consultations, hair coloring, or salon director advice.",
+            "type": "assistant",
+            "assistantName": "Luxe Salon Director - Marcus"
+          },
+          {
+            "description": "Transfer to Kishor for technical issues, system software questions, or integrations.",
+            "type": "assistant",
+            "assistantName": "AI Forward Deployment Engineer - Kishor"
+          },
+          {
+            "description": "Transfer to Tasnim for sales inquiries, luxury packages, or corporate memberships.",
+            "type": "assistant",
+            "assistantName": "Head of Sales - Tasnim"
+          }
+        ]
+      }
+    ],
+    "name": "Luxe Frontfoot 5-Member Leadership Squad",
+    "latestVersion": "v5"
+  }
+]

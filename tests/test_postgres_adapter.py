@@ -42,9 +42,9 @@ def test_postgres_detection_and_url_normalization(monkeypatch):
 
     # Neon custom URL key
     monkeypatch.delenv("DATABASE_URL")
-    monkeypatch.setenv("NEON_DATABASE_URL", "postgresql://neondb_owner:secret@ep-cool.aws.neon.tech/neondb?sslmode=require")
+    monkeypatch.setenv("NEON_DATABASE_URL", "postgresql://neondb_owner:secret@ep-dummy.aws.neon.tech/neondb?sslmode=require")
     assert is_postgres() is True
-    assert "ep-cool.aws.neon.tech" in get_database_url()
+    assert "ep-dummy.aws.neon.tech" in get_database_url()
 
 
 def test_sqlite_fallback_and_serverless_safe_path(monkeypatch):

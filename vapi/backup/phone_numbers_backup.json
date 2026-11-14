@@ -1,0 +1,27 @@
+[
+  {
+    "id": "c3cc95f8-6517-4870-8f82-bc3ea758b205",
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "number": "+16172718180",
+    "createdAt": "2026-11-08T10:42:54.254Z",
+    "updatedAt": "2026-11-09T14:54:23.915Z",
+    "name": "ParoiAI",
+    "credentialId": "96e463e9-203a-4f0f-b1c4-73ed1eb5efc1",
+    "serverUrl": "https://ai-voice-receptionist-chi.vercel.app/webhook/vapi-tools",
+    "provider": "telnyx",
+    "squadId": "816b5fbf-8eb1-4e26-805b-3cc6caade9ce",
+    "status": "active"
+  },
+  {
+    "id": "61a93295-290b-406d-a300-a2a67c478c65",
+    "orgId": "0b40d833-b74b-4d15-aaec-3b1cf7f673f1",
+    "number": "+19472046027",
+    "createdAt": "2026-11-08T09:14:12.004Z",
+    "updatedAt": "2026-11-08T09:24:34.986Z",
+    "serverUrl": "https://ai-voice-receptionist.kishor.tech/webhook/vapi-tools",
+    "provider": "vapi",
+    "squadId": "816b5fbf-8eb1-4e26-805b-3cc6caade9ce",
+    "status": "active",
+    "providerResourceId": "fe403e56-8539-48df-ba1c-1e8e8a951260"
+  }
+]
