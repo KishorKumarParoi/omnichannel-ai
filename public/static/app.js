@@ -3087,14 +3087,6 @@ let activeInboxThread = {
   recipientId: "+16172718180"
 };
 
-let currentOwnerMarket = "USA";
-let activeInboxThread = {
-  threadId: "wa_6172718180",
-  name: "Victoria Thorne",
-  channel: "whatsapp",
-  recipientId: "+16172718180"
-};
-
 function switchOwnerTab(paneId, btn) {
   document.querySelectorAll(".owner-tab-btn").forEach(b => b.classList.remove("active"));
   if (btn) btn.classList.add("active");

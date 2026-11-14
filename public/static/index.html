@@ -67,6 +67,23 @@
       </div>
     </div>
   </div>
+  <script>
+    (function() {
+      function hidePreloader() {
+        var el = document.getElementById("luxePreloader");
+        if (el && !el.classList.contains("fade-out")) {
+          el.classList.add("fade-out");
+          setTimeout(function() { el.style.display = "none"; }, 350);
+        }
+      }
+      if (document.readyState === "complete") {
+        setTimeout(hidePreloader, 150);
+      } else {
+        window.addEventListener("load", function() { setTimeout(hidePreloader, 150); });
+        setTimeout(hidePreloader, 600); // Fail-safe fallback: never block user
+      }
+    })();
+  </script>
 
   <!-- Drafting Guide Lines -->
   <div class="guides-layer" aria-hidden="true">
