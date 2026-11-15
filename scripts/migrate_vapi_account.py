@@ -314,8 +314,7 @@ def main():
             if not cred_id:
                 new_cred = client.post("/credential", json={
                     "provider": "telnyx",
-                    "apiKey": telnyx_key,
-                    "telnyxApplicationId": telnyx_app_id
+                    "apiKey": telnyx_key
                 })
                 if new_cred.status_code in (200, 201):
                     cred_id = new_cred.json()["id"]

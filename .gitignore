@@ -12,6 +12,7 @@ __pycache__/
 
 # Sensitive Environment Variables
 .env
+.env.test
 *.pem
 *.key
 credentials/
