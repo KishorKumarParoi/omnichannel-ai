@@ -19,19 +19,12 @@
   <link rel="preload" href="/vapi-sdk.js" as="script">
   <link rel="preload" href="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js" as="script" crossorigin="anonymous">
 
-  <!-- Preload High-Res Hero & Cascading Flock Visual Assets for Instant Non-Blocking Render -->
-  <link rel="preload" href="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" as="image" fetchpriority="high">
-  <link rel="preload" href="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=800&q=80" as="image" fetchpriority="high">
-  <link rel="preload" href="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" as="image" fetchpriority="high">
-  <link rel="preload" href="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80" as="image">
-  <link rel="preload" href="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=800&q=80" as="image">
-  <link rel="preload" href="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" as="image">
-
+  <!-- Critical Stylesheet -->
   <link rel="stylesheet" href="/static/style.css?v=8.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20%220%22%20%22100%22%20%22100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
   
   <!-- Self-Hosted Resilient Vapi Web SDK -->
-  <script src="/vapi-sdk.js"></script>
+  <script defer src="/vapi-sdk.js"></script>
 
   <!-- Clerk Production Authentication SDK (Bound to clerk.kishor.tech) -->
   <script>
@@ -73,14 +66,14 @@
         var el = document.getElementById("luxePreloader");
         if (el && !el.classList.contains("fade-out")) {
           el.classList.add("fade-out");
-          setTimeout(function() { el.style.display = "none"; }, 350);
+          setTimeout(function() { el.style.display = "none"; }, 200);
         }
       }
-      if (document.readyState === "complete") {
-        setTimeout(hidePreloader, 150);
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        hidePreloader();
       } else {
-        window.addEventListener("load", function() { setTimeout(hidePreloader, 150); });
-        setTimeout(hidePreloader, 600); // Fail-safe fallback: never block user
+        document.addEventListener("DOMContentLoaded", hidePreloader);
+        setTimeout(hidePreloader, 160); // Fast non-blocking auto-dismiss
       }
     })();
   </script>
@@ -306,7 +299,7 @@
           
           <!-- Bird 1: Left Wing Lead (Marcus Balayage Blonde) -->
           <div class="flock-bird-card bird-card-1" data-category="services" onclick="quickBookService('Signature Balayage & Foilayage', 280, 'Marcus Vance')">
-            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=800&q=80" alt="Signature Balayage & Blonde Couture" class="bird-card-image" loading="eager" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=480&q=75" alt="Signature Balayage & Blonde Couture" class="bird-card-image" loading="eager" fetchpriority="high">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge cyan">✦ Left Wing &bull; Marcus</div>
             <div class="bird-card-meta">
@@ -318,7 +311,7 @@
 
           <!-- Bird 2: Left Flanker (Chloe Japanese Gel Nail Art) -->
           <div class="flock-bird-card bird-card-2" data-category="services" onclick="quickBookService('Japanese Gel Luxury Manicure', 85, 'Chloe Laurent')">
-            <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=800&q=80" alt="Japanese Gel Luxury Manicure" class="bird-card-image" loading="eager" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=480&q=75" alt="Japanese Gel Luxury Manicure" class="bird-card-image" loading="eager" fetchpriority="high">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge rose">💅 Left Flanker &bull; Chloe</div>
             <div class="bird-card-meta">
@@ -330,7 +323,7 @@
 
           <!-- Bird 3: Apex V-Leader (Sofia AI Voice Concierge Centerpiece) -->
           <div class="flock-bird-card bird-card-3" data-category="voice" onclick="handleHeroVoiceClick()">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" alt="Sofia AI Live Voice Studio" class="bird-card-image" loading="eager" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=480&q=75" alt="Sofia AI Live Voice Studio" class="bird-card-image" loading="eager" fetchpriority="high">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge gold">👑 APEX LEADER &bull; &lt;120ms</div>
             <div class="bird-card-meta">
@@ -342,7 +335,7 @@
 
           <!-- Bird 4: Right Flanker (Elena HydraFacial MD) -->
           <div class="flock-bird-card bird-card-4" data-category="services" onclick="quickBookService('HydraFacial MD Elite Facial', 225, 'Elena Rostova')">
-            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80" alt="HydraFacial MD Skin Radiance" class="bird-card-image" loading="eager">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=480&q=75" alt="HydraFacial MD Skin Radiance" class="bird-card-image" loading="eager">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge emerald">✨ Right Flanker &bull; Elena</div>
             <div class="bird-card-meta">
@@ -354,7 +347,7 @@
 
           <!-- Bird 5: Right Wing Lead (Newbury St Flagship Studio) -->
           <div class="flock-bird-card bird-card-5" data-category="squad" onclick="document.getElementById('services-section')?.scrollIntoView({behavior:'smooth'})">
-            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="Luxe Newbury St Flagship Studio" class="bird-card-image" loading="eager" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=480&q=75" alt="Luxe Newbury St Flagship Studio" class="bird-card-image" loading="eager" fetchpriority="high">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge cyan">✦ Right Wing &bull; 120 Newbury</div>
             <div class="bird-card-meta">
@@ -366,7 +359,7 @@
 
           <!-- Bird 6: Gliding Escort (Botanical Scalp Spa & Blowout) -->
           <div class="flock-bird-card bird-card-6" data-category="services" onclick="quickBookService('Botanical Scalp Therapy & Blowout', 120, 'Marcus Vance')">
-            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Botanical Scalp Spa & Wellness" class="bird-card-image" loading="eager">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=480&q=75" alt="Botanical Scalp Spa & Wellness" class="bird-card-image" loading="eager">
             <div class="bird-card-gradient"></div>
             <div class="bird-card-badge gold">🌿 Gliding &bull; Head Spa</div>
             <div class="bird-card-meta">

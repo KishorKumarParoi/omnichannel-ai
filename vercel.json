@@ -6,6 +6,26 @@
       "includeFiles": "backend/**,core/**,integrations/**,web/**,public/**"
     }
   },
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(?:js|css|svg|png|jpg|jpeg|webp|ico|woff2))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/reminders",
@@ -13,6 +33,14 @@
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/index.html",
+      "dest": "/index.html"
+    },
     {
       "src": "/widget.js",
       "dest": "/widget.js"
@@ -36,6 +64,10 @@
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
+    },
+    {
+      "src": "/(api|webhook|health|admin|docs|openapi.json)(.*)",
+      "dest": "/api/index.py"
     },
     {
       "src": "/(.*)",
