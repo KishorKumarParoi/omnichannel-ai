@@ -1154,6 +1154,49 @@
 
     <!-- 👑 SALON OWNER AUTONOMOUS AI COMMAND CENTER (ONE-STOP B2B OPERATING SYSTEM) -->
     <section class="owner-os-section" id="owner-os-section">
+      <!-- 🔒 Executive RBAC Authorization Gate for Salon Owner OS -->
+      <div id="ownerOsRestrictedGate" class="owner-os-restricted-gate">
+        <div class="owner-gate-card">
+          <div class="owner-gate-badge">
+            <span>🔒</span> EXECUTIVE CLEARANCE REQUIRED
+          </div>
+          <h3 style="font-size:24px; font-weight:900; color:#fff; margin-bottom:10px;">
+            Salon Owner OS <span class="gradient-text-luxury">Restricted Area</span>
+          </h3>
+          <p style="font-size:13.5px; color:#94a3b8; line-height:1.6; margin-bottom:20px;">
+            This command center contains proprietary EBITDA financial models, real-time customer WhatsApp/Instagram inboxes, de-escalation logs, and team call records. Access is strictly limited to authenticated <b>Salon Owners &amp; System Administrators</b>.
+          </p>
+
+          <div id="ownerGateUserStatus" style="margin-bottom:20px; padding:12px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:12px; font-size:12px; color:#fca5a5;">
+            Current Clearance: <b>Not Authenticated</b> (Standard Client Mode)
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px; max-width:400px; margin:0 auto;">
+            <button onclick="openVipAuthModalWithRole('admin', 'signin')" class="btn-primary" style="padding:14px 22px; font-size:13px; font-weight:800; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000; border-radius:12px; box-shadow:0 6px 20px rgba(245,158,11,0.35); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <span>👑</span> Sign In as Salon Owner (Admin)
+            </button>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:2px;">
+              <input type="password" id="gateDirectAdminKey" placeholder="Admin Passkey (e.g. luxe-admin-2026)" value="luxe-admin-2026" style="flex:1; height:40px; padding:0 12px; font-size:12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.18); border-radius:8px; color:#fff; font-family:var(--font-mono);">
+              <button onclick="unlockGateWithDirectKey()" class="btn-ghost" style="height:40px; padding:0 16px; font-size:12px; font-weight:700; border:1px solid rgba(251,191,36,0.4); color:#fbbf24; border-radius:8px; background:rgba(245,158,11,0.12); cursor:pointer;">
+                Unlock
+              </button>
+            </div>
+            <div style="font-size:11px; color:#64748b; margin-top:4px;">
+              ⚡ Quick Demo: Click "Sign In as Salon Owner" &rarr; use 1-Click Fast Pass as Riley / Kishor.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Admin Banner (Shown when admin is unlocked) -->
+      <div id="ownerOsAdminBanner" style="display:none; margin-bottom:20px; padding:12px 20px; border-radius:14px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#6ee7b7; font-size:12.5px; font-weight:700; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:16px;">👑</span>
+          <span>Executive Clearance Active: Signed in as <b id="ownerAdminNameDisplay">Riley (Salon Owner)</b> <span class="badge" style="background:#f59e0b; color:#000; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px; margin-left:6px;">ROLE: ADMIN</span></span>
+        </div>
+        <button onclick="handleClerkSignOut()" style="background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.35); color:#fca5a5; font-size:11px; font-weight:700; padding:4px 12px; border-radius:8px; cursor:pointer;" title="Sign out to test user mode">Switch Role / Sign Out</button>
+      </div>
+
       <div class="owner-os-header">
         <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); padding:5px 16px; border-radius:999px; font-size:11px; font-weight:800; color:#fbbf24; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px;">
           ✦ ONE-STOP AUTONOMOUS SALON OS • USA 🇺🇸 • UK 🇬🇧 • CANADA 🇨🇦 • EUROPE 🇪🇺
@@ -2627,60 +2670,111 @@
     </div>
   </div>
 
-  <!-- 👑 Universal VIP Lounge & Authentication Modal -->
+  <!-- 👑 Universal VIP Lounge & Authentication Modal (Role-Based: User vs Admin) -->
   <div id="vipAuthModal" class="modal-overlay" style="display:none; z-index:999999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(3,7,18,0.85); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); justify-content:center; align-items:center;">
-    <div class="vip-auth-card" style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(7,10,18,0.98)); border:1px solid rgba(255,255,255,0.18); border-radius:20px; padding:28px; position:relative; max-width:480px; width:92%; box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 35px rgba(56,189,248,0.15); max-height:92vh; overflow-y:auto;">
+    <div class="vip-auth-card" style="background:linear-gradient(135deg, rgba(15,23,42,0.96), rgba(7,10,18,0.98)); border:1px solid rgba(251,191,36,0.3); border-radius:22px; padding:28px; position:relative; max-width:490px; width:92%; box-shadow:0 25px 60px rgba(0,0,0,0.85), 0 0 35px rgba(245,158,11,0.15); max-height:92vh; overflow-y:auto;">
       
       <!-- Modal Header -->
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
         <div>
           <div style="font-size:11px; font-weight:700; color:#fbbf24; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:6px;">
-            <span>✦</span> VIP MEMBER ACCESS
+            <span>✦</span> <span id="authModalHeaderEyebrow">VIP MEMBER ACCESS</span>
           </div>
-          <h3 style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">Luxe Concierge Sign In</h3>
-          <p style="font-size:12px; color:#94a3b8; margin-top:2px;">Sign in to unlock personalized voice memory with Sofia & 1-click booking.</p>
+          <h3 id="authModalTitle" style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">Sign In to Luxe Concierge</h3>
+          <p id="authModalSubtitle" style="font-size:12px; color:#94a3b8; margin-top:2px;">Select your account type to access personalized services or Salon Owner OS.</p>
         </div>
         <button onclick="closeVipAuthModal()" style="background:rgba(255,255,255,0.08); border:none; color:#cbd5e1; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; transition:all 0.2s ease;">✕</button>
       </div>
 
-      <!-- ⚡ Instant 1-Click Fast Pass for Investors & Guests -->
-      <div style="margin-bottom:20px; padding:14px; background:rgba(56,189,248,0.06); border:1px solid rgba(56,189,248,0.22); border-radius:12px;">
-        <div style="font-size:11px; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-          <span>⚡</span> 1-Click Instant Fast Pass (Zero Wait)
+      <!-- 👑 Role Selector (Client/User vs Salon Owner/Admin) -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:700; color:#cbd5e1; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+          Account Type / Authorization Role:
+        </div>
+        <div class="auth-role-pill-group">
+          <button type="button" id="roleBtnUser" class="auth-role-pill active" onclick="setAuthSelectedRole('user')">
+            <span>👤</span> Client / VIP Guest (User)
+          </button>
+          <button type="button" id="roleBtnAdmin" class="auth-role-pill" onclick="setAuthSelectedRole('admin')">
+            <span>👑</span> Salon Owner (Admin)
+          </button>
+        </div>
+        <div id="roleDescriptionNotice" style="font-size:11.5px; color:#38bdf8; background:rgba(2,132,199,0.1); border:1px solid rgba(56,189,248,0.25); border-radius:8px; padding:6px 12px; margin-top:6px; line-height:1.4;">
+          👤 <b>Client Mode:</b> 24/7 Voice AI Receptionist booking, memory with Sofia &amp; calendar confirmations.
+        </div>
+      </div>
+
+      <!-- ⚡ Instant 1-Click Fast Pass for Rapid Testing -->
+      <div style="margin-bottom:16px; padding:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px;">
+        <div style="font-size:10.5px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
+          <span>⚡ 1-Click Instant Demo Pass</span>
+          <span style="color:#fbbf24; font-size:10px;">Select Role</span>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <button onclick="fastSignIn('Kishor Kumar Paroi', '+16673070119', 'kishor@kishor.tech', 'AI Systems Architect')" style="padding:10px 12px; font-size:11.5px; font-weight:700; background:rgba(2,132,199,0.2); border:1px solid rgba(56,189,248,0.35); border-radius:8px; color:#fff; cursor:pointer; text-align:left; transition:all 0.15s ease;">
-            <div style="color:#38bdf8; font-size:10px;">👤 Founder / Investor</div>
-            <div style="font-weight:800;">Kishor Paroi</div>
-          </button>
-          <button onclick="fastSignIn('Elena Rostova', '+16175550199', 'elena@luxesaloon.com', 'Gold VIP Client')" style="padding:10px 12px; font-size:11.5px; font-weight:700; background:rgba(245,158,11,0.18); border:1px solid rgba(245,158,11,0.35); border-radius:8px; color:#fff; cursor:pointer; text-align:left; transition:all 0.15s ease;">
-            <div style="color:#fbbf24; font-size:10px;">👑 VIP Client</div>
+          <button type="button" onclick="fastSignIn('Elena Rostova', '+16175550199', 'elena@luxesaloon.com', 'user')" style="padding:10px 12px; font-size:11.5px; font-weight:700; background:rgba(2,132,199,0.18); border:1px solid rgba(56,189,248,0.35); border-radius:8px; color:#fff; cursor:pointer; text-align:left; transition:all 0.15s ease;">
+            <div style="color:#38bdf8; font-size:10px; font-weight:800;">👤 VIP Client (User)</div>
             <div style="font-weight:800;">Elena Rostova</div>
+          </button>
+          <button type="button" onclick="fastSignIn('Riley (Managing Partner)', '+16172718180', 'riley@luxesaloon.com', 'admin')" style="padding:10px 12px; font-size:11.5px; font-weight:700; background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4); border-radius:8px; color:#fff; cursor:pointer; text-align:left; transition:all 0.15s ease;">
+            <div style="color:#fbbf24; font-size:10px; font-weight:800;">👑 Salon Owner (Admin)</div>
+            <div style="font-weight:800;">Riley / Kishor</div>
           </button>
         </div>
       </div>
 
-      <!-- Custom VIP Sign-In Form -->
-      <div style="margin-bottom:18px;">
-        <div style="font-size:11.5px; font-weight:700; color:#cbd5e1; margin-bottom:8px;">Or Enter Your VIP Details:</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <input type="text" id="vipCustomName" placeholder="Your Full Name (e.g. David Miller)" class="form-input" style="height:42px; font-size:13px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%;">
-          <input type="tel" id="vipCustomPhone" placeholder="WhatsApp / Mobile (+1 617-555-0199)" class="form-input" style="height:42px; font-size:13px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%; font-family:var(--font-mono);">
-          <button onclick="submitCustomVipSignIn()" class="btn-primary" style="height:42px; font-size:13px; font-weight:700; background:linear-gradient(135deg, #0284c7, #38bdf8); border:none; border-radius:8px; color:#fff; cursor:pointer; box-shadow:0 4px 14px rgba(2,132,199,0.35);">
+      <!-- Custom Authentication Form (Login / Signup) -->
+      <form id="customAuthForm" onsubmit="event.preventDefault(); submitCustomAuth();" style="margin-bottom:14px;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <!-- Name Field (for signup or personalized signin) -->
+          <div id="authFieldNameGroup">
+            <input type="text" id="vipCustomName" placeholder="Your Full Name (e.g. David Miller)" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%;">
+          </div>
+
+          <!-- Company Name (displayed for Admin signup) -->
+          <div id="authFieldCompanyGroup" style="display:none;">
+            <input type="text" id="vipCustomCompany" placeholder="Salon / Business Name (e.g. Luxe Saloon &amp; Spa Boston)" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%;">
+          </div>
+
+          <!-- Email Field -->
+          <input type="email" id="vipCustomEmail" placeholder="Email Address (e.g. owner@luxesaloon.com)" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%;">
+
+          <!-- Phone Field -->
+          <input type="tel" id="vipCustomPhone" placeholder="Mobile / WhatsApp (+1 617-555-0199)" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%; font-family:var(--font-mono);">
+
+          <!-- Password Field -->
+          <input type="password" id="vipCustomPassword" placeholder="Password (min 6 characters)" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; width:100%;">
+
+          <!-- Admin Security Passkey (Required for Admin Role) -->
+          <div id="authFieldAdminKeyGroup" style="display:none;">
+            <div style="font-size:10.5px; color:#fbbf24; font-weight:700; margin-bottom:3px; display:flex; justify-content:space-between;">
+              <span>👑 ADMIN SECURITY PASSKEY:</span>
+              <span style="color:#94a3b8; font-weight:normal;">Default: luxe-admin-2026</span>
+            </div>
+            <input type="password" id="vipCustomAdminKey" value="luxe-admin-2026" placeholder="Enter Admin Passkey" class="form-input" style="height:40px; font-size:12.5px; padding:0 12px; background:rgba(15,23,42,0.95); border:1px solid rgba(251,191,36,0.4); border-radius:8px; color:#fbbf24; width:100%; font-family:var(--font-mono);">
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="vipAuthSubmitBtn" class="btn-primary" style="height:42px; font-size:13px; font-weight:700; background:linear-gradient(135deg, #0284c7, #38bdf8); border:none; border-radius:8px; color:#fff; cursor:pointer; box-shadow:0 4px 14px rgba(2,132,199,0.35); margin-top:4px;">
             ✨ Enter as VIP Guest
           </button>
         </div>
+      </form>
+
+      <!-- Toggle Sign In vs Sign Up -->
+      <div style="text-align:center; font-size:12px; color:#94a3b8; margin-bottom:12px;">
+        <span id="authToggleText">Need a new business or client account?</span>
+        <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:#fbbf24; font-weight:700; text-decoration:underline; margin-left:4px;">Create New Account</a>
       </div>
 
       <!-- Clerk OAuth Divider -->
-      <div style="position:relative; text-align:center; margin:16px 0;">
+      <div style="position:relative; text-align:center; margin:14px 0;">
         <hr style="border:none; border-top:1px solid rgba(255,255,255,0.1);">
-        <span style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#0f172a; padding:0 12px; font-size:10px; font-weight:700; color:#64748b; letter-spacing:0.5px;">OR AUTHENTICATE WITH CLERK</span>
+        <span style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#0f172a; padding:0 12px; font-size:10px; font-weight:700; color:#64748b; letter-spacing:0.5px;">OR CONTINUE WITH CLERK</span>
       </div>
 
-      <button onclick="triggerClerkOAuthPortal()" class="btn-ghost" style="width:100%; height:40px; font-size:12px; font-weight:600; border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:#cbd5e1; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; background:rgba(255,255,255,0.04);">
+      <button onclick="triggerClerkOAuthPortal()" class="btn-ghost" style="width:100%; height:38px; font-size:12px; font-weight:600; border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:#cbd5e1; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; background:rgba(255,255,255,0.04);">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-        Continue with Clerk (Google / Email / Passkey)
+        Continue with Clerk (Google / Passkey)
       </button>
 
       <!-- Target Container for Clerk Components if active -->
