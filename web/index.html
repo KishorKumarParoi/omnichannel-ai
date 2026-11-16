@@ -985,6 +985,31 @@
         <span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981; border:1px solid #10b981; padding:5px 14px; border-radius:12px; font-size:12px;">Top Rated Salon • Boston, MA</span>
       </div>
 
+      <!-- 🏷️ Dynamic Campaign & Discount Code Banner -->
+      <div id="promotionalCampaignBanner" style="background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(217,119,6,0.06)); border:1px solid rgba(245,158,11,0.35); border-radius:14px; padding:16px 20px; margin-bottom:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="font-size:24px; animation:bounce 2s infinite;">🎉</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:13px; font-weight:800; color:#fbbf24; text-transform:uppercase; letter-spacing:0.06em;">Active Flash Campaign</span>
+              <span class="lead-badge high" style="background:rgba(245,158,11,0.25); color:#fbbf24; border:1px solid #f59e0b;">20% OFF ALL SERVICES</span>
+            </div>
+            <div style="font-size:12.5px; color:#f1f5f9; margin-top:2px;">
+              Apply promo code <code style="background:rgba(0,0,0,0.4); color:#fbbf24; padding:2px 6px; border-radius:6px; font-weight:800; border:1px dashed #f59e0b;">VIP20</code> for 20% off styling, facials &amp; nail treatments!
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo Code Input Box -->
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="promoCodeInput" placeholder="Enter Promo (e.g. VIP20)" value="VIP20" style="background:rgba(15,23,42,0.8); border:1px solid rgba(245,158,11,0.4); color:#fff; padding:8px 12px; font-size:12.5px; font-weight:700; border-radius:8px; text-transform:uppercase; width:160px; outline:none;">
+          <button onclick="applyDiscountCode()" class="btn-primary" style="padding:8px 14px; font-size:12px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000;">
+            Apply Discount
+          </button>
+          <span id="promoStatusMessage" style="font-size:11.5px; color:#34d399; font-weight:700;"></span>
+        </div>
+      </div>
+
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px;">
         
         <!-- Service 1: Signature Balayage -->
@@ -1239,11 +1264,17 @@
         <button class="owner-tab-btn" data-pane="pane-reviews" onclick="switchOwnerTab('pane-reviews', this)">
           <span>⭐</span> 6h Reviews &amp; Slack Alerts
         </button>
+        <button class="owner-tab-btn" data-pane="pane-automations" onclick="switchOwnerTab('pane-automations', this)">
+          <span>⚡</span> 10-Automations Hub
+        </button>
+        <button class="owner-tab-btn" data-pane="pane-campaigns" onclick="switchOwnerTab('pane-campaigns', this)">
+          <span>🏷️</span> Campaigns &amp; Discounts
+        </button>
         <button class="owner-tab-btn" data-pane="pane-lifecycle" onclick="switchOwnerTab('pane-lifecycle', this)">
           <span>🔄</span> Lifecycle Calls &amp; n8n
         </button>
         <button class="owner-tab-btn" data-pane="pane-settings" onclick="switchOwnerTab('pane-settings', this)">
-          <span>⚙️</span> Owner Settings
+          <span>⚙️</span> Owner Settings &amp; BYOK
         </button>
       </div>
 
@@ -1565,45 +1596,461 @@
       </div>
 
       <!-- =====================================================================
-           PANE 6: OWNER SETTINGS & COMPLIANCE CONFIGURATION
+           PANE 5A: ENTERPRISE 10-AUTOMATIONS HUB (Voice, Retries, CRM, BI)
            ===================================================================== -->
-      <div class="owner-tab-pane" id="pane-settings">
-        <div style="max-width:680px; margin:0 auto; background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:26px;">
-          <h4 style="font-size:17px; font-weight:800; color:#fff; margin:0 0 6px 0;">Salon Owner Profile &amp; International Compliance</h4>
-          <p style="font-size:12.5px; color:#94a3b8; margin:0 0 20px 0;">
-            Configure notifications, Slack integration, and regulatory compliance standards for USA, UK, or Canada.
-          </p>
+      <div class="owner-tab-pane" id="pane-automations">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 2px 0;">⚡ Enterprise 10-Automations Operational Hub</h4>
+            <p style="font-size:12.5px; color:#94a3b8; margin:0;">Autonomous AI workflows managing voice fallbacks, client retention, reviews, and omnichannel dispatch.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981; border:1px solid #10b981; padding:5px 12px; border-radius:10px; font-size:11.5px; font-weight:800;">
+              ● 10 of 10 Automations Active
+            </span>
+          </div>
+        </div>
 
-          <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;" id="automationsGridContainer">
+          
+          <!-- Auto 1: Missed Call Recovery -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
             <div>
-              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner Email (For Daily &amp; Monthly EBITDA Reports)</label>
-              <input type="email" id="settingOwnerEmail" class="inbox-input" value="kishor.paroi@gmail.com" style="width:100%;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">1. Missed Call Instant Recovery</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Dispatches apology SMS &amp; WhatsApp with an instant 1-click booking link within 60s if caller drops off.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Vapi Unbooked Call Drop</code></div>
+                <div>Channels: <code>SMS &bull; WhatsApp &bull; Webhook</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: 94 recoveries ($18,800 saved)</div>
+              </div>
             </div>
-
-            <div>
-              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner Emergency Mobile Phone (For Break-Glass Escalations)</label>
-              <input type="tel" id="settingOwnerPhone" class="inbox-input" value="+16172718180" style="width:100%;">
-            </div>
-
-            <div>
-              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Slack User / Channel ID (For Real-Time De-escalation &amp; Review Alerts)</label>
-              <input type="text" id="settingSlackChannel" class="inbox-input" value="U0A57CPCBRC" style="width:100%;">
-            </div>
-
-            <div>
-              <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Target Market &amp; Regulatory Standard</label>
-              <select id="settingMarketSelect" class="inbox-input" style="width:100%;" onchange="selectOwnerMarket(this.value)">
-                <option value="USA">🇺🇸 United States (USD $ &bull; TCPA &amp; FTC Safe Harbor Compliant)</option>
-                <option value="UK">🇬🇧 United Kingdom (GBP £ &bull; GDPR &amp; PECR Direct Marketing Compliant)</option>
-                <option value="Canada">🇨🇦 Canada (CAD $ &bull; CASL Anti-Spam Compliant)</option>
-                <option value="Europe">🇪🇺 European Union (EUR € &bull; EU GDPR Regulation 2016/679 &amp; ePrivacy Compliant)</option>
-              </select>
-            </div>
-
-            <button onclick="saveOwnerSettingsAction()" class="btn-primary" style="margin-top:10px; padding:12px; font-size:13.5px; font-weight:800; border-radius:10px; justify-content:center;">
-              💾 Save Salon Owner OS Settings
+            <button onclick="testAutomationTrigger('auto_missed_call', 'Missed Call Recovery')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
             </button>
           </div>
+
+          <!-- Auto 2: Post-Service Review Harvester -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">2. Post-Service 6h Review</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Prompts clients 6h post-visit. 5★ ratings route to Google Reviews; lower scores route to private de-escalation.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Appointment Completed + 6 Hours</code></div>
+                <div>Channels: <code>WhatsApp &bull; Google Reviews &bull; Slack</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: 142 Google 5★ reviews gathered</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_post_service_review', 'Post-Service Review Harvester')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 3: Slack Escalation -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(244,63,94,0.3); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">3. Break-Glass Slack Alert</span>
+                <span class="lead-badge lost" style="font-size:10px;">STANDBY</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Alerts management immediately if call sentiment is frustrated or feedback rating is $\le$ 3 stars.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Sentiment == Frustrated OR Score &le; 3</code></div>
+                <div>Channels: <code>Slack #alerts-urgent &bull; Owner WhatsApp</code></div>
+                <div style="color:#fb7185; font-weight:700; margin-top:4px;">SLA: &lt;15m Owner Notification</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_slack_escalation', 'Break-Glass Slack Alert')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px; border-color:rgba(244,63,94,0.4); color:#fb7185;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 4: Daily EBITDA Digest -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">4. Daily EBITDA &amp; Labor Lift</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Calculates daily automated revenue, receptionist labor hours saved, and profit margins at 8:00 AM.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Cron 08:00 AM Local Salon Time</code></div>
+                <div>Channels: <code>Email PDF &bull; WhatsApp Digest</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: $12,480 labor costs eliminated</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_daily_ebitda', 'Daily EBITDA Digest')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 5: 30-Day Winback -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">5. 30-Day Lapsed VIP Winback</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Auto-detects clients inactive for 30+ days and triggers an automated VIP refresh voucher via WhatsApp.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Last Visit Date &gt; 30 Days</code></div>
+                <div>Channels: <code>WhatsApp &bull; Custom Email</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: 24.6% Re-activation Rate</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_30d_winback', '30-Day Lapsed VIP Winback')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 6: Google Calendar Sync -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">6. 2-Way Google Calendar Sync</span>
+                <span class="lead-badge high" style="font-size:10px;">CONNECTED</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Bidirectional atomic appointment locking with <code>kishor.react.cse@gmail.com</code> preventing overlaps.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Booking Event Created / Updated</code></div>
+                <div>Channels: <code>Google Calendar v3 API</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: Zero double bookings in 2,850+ appts</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_gcal_sync', 'Google Calendar Sync')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 7: Google Sheets Export -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">7. Google Sheets Live BI Export</span>
+                <span class="lead-badge high" style="font-size:10px;">CONNECTED</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Continuously pipes caller transcript metadata, inquiry topics, and settlement amounts to spreadsheets.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Call Transcript Processed</code></div>
+                <div>Channels: <code>Google Sheets API</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: 1,850 rows synced to Salon_BI.xlsx</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_gsheets_pipeline', 'Google Sheets BI Export')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 8: Design Assets Sync -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">8. Canva &amp; Figma Brand Asset Ingestion</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Ingests visual assets, typography, and promotional covers from Figma &amp; Canva for marketing blasts.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Figma / Canva Asset Webhook</code></div>
+                <div>Channels: <code>Figma API &bull; Canva Connect</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Assets: 48 High-Res Brand Templates</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_design_sync', 'Brand Asset Ingestion')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 9: Notion VIP Dossier -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">9. Notion VIP Client Dossier</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Creates structured consultation records, color formulas, and skin sensitivity notes in Notion database.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Appointment Notes Submitted</code></div>
+                <div>Channels: <code>Notion API &bull; Webhook</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Stats: 320 VIP client profiles indexed</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_notion_dossier', 'Notion Client Dossier')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+          <!-- Auto 10: Vercel Subdomain Provisioning -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13.5px; font-weight:800; color:#fff;">10. Vercel Subdomain Provisioning</span>
+                <span class="lead-badge high" style="font-size:10px;">ACTIVE</span>
+              </div>
+              <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+                Auto-provisions custom <code>{tenant}.kishor.tech</code> with Edge middleware rewrites and SSL upon Stripe subscription.
+              </p>
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:12px;">
+                <div>Trigger: <code>Stripe Subscription Activated</code></div>
+                <div>Channels: <code>Vercel API &bull; Edge Routing</code></div>
+                <div style="color:#34d399; font-weight:700; margin-top:4px;">Speed: Sub-2s edge domain provisioning</div>
+              </div>
+            </div>
+            <button onclick="testAutomationTrigger('auto_vercel_subdomain', 'Vercel Subdomain Provisioning')" class="btn-ghost" style="width:100%; font-size:11.5px; padding:7px; justify-content:center; border-radius:8px;">
+              ⚡ Run Test Trigger
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           PANE 5B: CAMPAIGNS & DYNAMIC DISCOUNT PROMOTIONAL ENGINE
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-campaigns">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 2px 0;">🏷️ Promotional Campaigns &amp; Discount Codes</h4>
+            <p style="font-size:12.5px; color:#94a3b8; margin:0;">Create, run, and track marketing blasts across WhatsApp, Instagram, SMS, and website booking.</p>
+          </div>
+          <button onclick="document.getElementById('newCampaignModal').style.display='flex'" class="btn-primary" style="padding:8px 16px; font-size:12px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000;">
+            + Launch New Campaign
+          </button>
+        </div>
+
+        <!-- Active Promo Codes Grid -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-bottom:24px;">
+          
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(245,158,11,0.3); border-radius:14px; padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:16px; font-weight:900; color:#fbbf24; letter-spacing:0.04em;">VIP20</span>
+              <span class="lead-badge high">20% OFF</span>
+            </div>
+            <div style="font-size:12px; color:#cbd5e1; margin-bottom:10px;">20% off all Salon Styling &amp; Spa Services</div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
+              <span>Channels: WhatsApp, IG, SMS</span>
+              <span style="color:#34d399; font-weight:700;">312 Redemptions</span>
+            </div>
+          </div>
+
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:16px; font-weight:900; color:#38bdf8; letter-spacing:0.04em;">WELCOME50</span>
+              <span class="lead-badge high" style="background:rgba(56,189,248,0.2); color:#38bdf8;">$50 OFF</span>
+            </div>
+            <div style="font-size:12px; color:#cbd5e1; margin-bottom:10px;">$50 off first visit above $150</div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
+              <span>Channels: Email, WhatsApp</span>
+              <span style="color:#34d399; font-weight:700;">184 Redemptions</span>
+            </div>
+          </div>
+
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:16px; font-weight:900; color:#34d399; letter-spacing:0.04em;">HOLIDAY30</span>
+              <span class="lead-badge high" style="background:rgba(52,211,153,0.2); color:#34d399;">30% OFF</span>
+            </div>
+            <div style="font-size:12px; color:#cbd5e1; margin-bottom:10px;">30% off Seasonal Package (Facial + Hair)</div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
+              <span>Channels: TikTok, LinkedIn, Web</span>
+              <span style="color:#34d399; font-weight:700;">88 Redemptions</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Launch Modal (Inline) -->
+        <div id="newCampaignModal" style="display:none; background:rgba(15,23,42,0.95); border:1px solid rgba(245,158,11,0.4); border-radius:16px; padding:22px; margin-bottom:20px;">
+          <h5 style="font-size:15px; font-weight:800; color:#fff; margin:0 0 12px 0;">🚀 Launch New Marketing Campaign Blast</h5>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:14px;">
+            <div>
+              <label style="font-size:11.5px; color:#94a3b8; display:block; margin-bottom:4px;">Campaign Title</label>
+              <input type="text" id="campTitleInput" placeholder="e.g. VIP Spring Glamour Blast" class="inbox-input" style="width:100%;">
+            </div>
+            <div>
+              <label style="font-size:11.5px; color:#94a3b8; display:block; margin-bottom:4px;">Promo Code</label>
+              <input type="text" id="campCodeInput" placeholder="e.g. GLAM25" class="inbox-input" style="width:100%; text-transform:uppercase;">
+            </div>
+            <div>
+              <label style="font-size:11.5px; color:#94a3b8; display:block; margin-bottom:4px;">Discount Percentage (%)</label>
+              <input type="number" id="campDiscountInput" value="25" min="5" max="70" class="inbox-input" style="width:100%;">
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button onclick="document.getElementById('newCampaignModal').style.display='none'" class="btn-ghost" style="padding:8px 16px; font-size:12px; border-radius:8px;">Cancel</button>
+            <button onclick="submitNewCampaignAction()" class="btn-primary" style="padding:8px 18px; font-size:12px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#000;">
+              Broadcast to WhatsApp &amp; Omnichannel
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           PANE 6: OWNER SETTINGS, BYOK VAULT & CUSTOMIZATION ECOSYSTEM
+           ===================================================================== -->
+      <div class="owner-tab-pane" id="pane-settings">
+        <div style="max-width:820px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
+          
+          <!-- Box 1: Owner Operational Profile -->
+          <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:24px;">
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 4px 0;">Salon Owner Profile &amp; International Compliance</h4>
+            <p style="font-size:12px; color:#94a3b8; margin:0 0 16px 0;">Emergency contacts, Slack channels, and regulatory market settings.</p>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:12px;">
+              <div>
+                <label style="font-size:11.5px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner Email (EBITDA Reports)</label>
+                <input type="email" id="settingOwnerEmail" class="inbox-input" value="kishor.paroi@gmail.com" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11.5px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Salon Owner WhatsApp (Live 2-Way Relay)</label>
+                <input type="tel" id="settingOwnerPhone" class="inbox-input" value="+16172718180" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11.5px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Slack Alert Channel</label>
+                <input type="text" id="settingSlackChannel" class="inbox-input" value="U0A57CPCBRC" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11.5px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Regulatory Standard</label>
+                <select id="settingMarketSelect" class="inbox-input" style="width:100%;" onchange="selectOwnerMarket(this.value)">
+                  <option value="USA">🇺🇸 United States (TCPA &amp; FTC Safe Harbor)</option>
+                  <option value="UK">🇬🇧 United Kingdom (GDPR &amp; PECR)</option>
+                  <option value="Canada">🇨🇦 Canada (CASL Safe)</option>
+                  <option value="Europe">🇪🇺 Europe (EU GDPR 2016/679)</option>
+                </select>
+              </div>
+            </div>
+            <button onclick="saveOwnerSettingsAction()" class="btn-primary" style="padding:10px 18px; font-size:12.5px; font-weight:800; border-radius:8px;">
+              💾 Save Profile Configuration
+            </button>
+          </div>
+
+          <!-- Box 2: BYOK Multi-Tenant Credential Vault -->
+          <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(56,189,248,0.25); border-radius:18px; padding:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div>
+                <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 4px 0;">🔑 BYOK Multi-Tenant Credential Vault</h4>
+                <p style="font-size:12px; color:#94a3b8; margin:0;">Provide your own API keys. Encrypted with KMS AES-256 hardware security.</p>
+              </div>
+              <span class="badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); padding:4px 10px; border-radius:8px; font-size:11px;">
+                🔒 AES-256-GCM Hardware Encrypted
+              </span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:12px; margin-bottom:14px;">
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">Vapi Private API Key</label>
+                <input type="password" id="byokVapiKey" placeholder="48c2••••••••••••" value="48c227b4-a687-446b-a633-09dbf479e587" class="inbox-input" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">Twilio Account SID</label>
+                <input type="password" id="byokTwilioSid" placeholder="AC••••••••••••" value="AC7b99201928419201849102" class="inbox-input" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">Telnyx API Key</label>
+                <input type="password" id="byokTelnyxKey" placeholder="KEY0••••••••••••" value="KEY01829104928172910" class="inbox-input" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">Meta WhatsApp Phone ID</label>
+                <input type="text" id="byokWhatsappPhoneId" placeholder="104928172910291" value="104928172910291" class="inbox-input" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">Telegram Bot Token</label>
+                <input type="password" id="byokTelegramToken" placeholder="719284192:AAH••••" value="719284192:AAH9918294102941" class="inbox-input" style="width:100%;">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:#94a3b8; display:block; margin-bottom:4px;">TikTok Marketing App ID</label>
+                <input type="text" id="byokTiktokAppId" placeholder="tt_app_99182" value="tt_app_99182" class="inbox-input" style="width:100%;">
+              </div>
+            </div>
+
+            <button onclick="saveByokVaultAction()" class="btn-primary" style="padding:10px 18px; font-size:12.5px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #0284c7, #0369a1);">
+              🔒 Encrypt &amp; Save Keys to BYOK Vault
+            </button>
+          </div>
+
+          <!-- Box 3: Customization Layer & Connected Tools -->
+          <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(168,85,247,0.25); border-radius:18px; padding:24px;">
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin:0 0 4px 0;">🌐 Customization Ecosystem &amp; Connected Suite</h4>
+            <p style="font-size:12px; color:#94a3b8; margin:0 0 16px 0;">
+              Google Workspace (<code>kishor.react.cse@gmail.com</code>), Cloud Platforms, and Design Pipelines.
+            </p>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+              
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Google Workspace</span>
+                  <span style="font-size:10px; color:#34d399; font-weight:700;">● Connected</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Calendar, Sheets, Docs (kishor.react.cse@gmail.com)</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Vercel Edge</span>
+                  <span style="font-size:10px; color:#34d399; font-weight:700;">● Active</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">ai-voice-receptionist.kishor.tech</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Canva &amp; Figma</span>
+                  <span style="font-size:10px; color:#38bdf8; font-weight:700;">● Connected</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Automated VIP banner generation</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Notion Database</span>
+                  <span style="font-size:10px; color:#34d399; font-weight:700;">● Active</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Salon VIP consultation profiles</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Levels.fyi Pipeline</span>
+                  <span style="font-size:10px; color:#a855f7; font-weight:700;">● levels.py</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Global FDE &amp; AI Engineer jobs tracker</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:12px; font-weight:800; color:#fff;">Netlify Cloud</span>
+                  <span style="font-size:10px; color:#94a3b8; font-weight:700;">○ Standby</span>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Multi-cloud failover replica</div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
